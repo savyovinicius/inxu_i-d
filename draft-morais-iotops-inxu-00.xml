@@ -1418,16 +1418,23 @@ module draft-inxu-mtd{
       <t>
         Finally, also coming from the previous statement, INXU could be used as an input for IPS/IDS systems in order to prevent attacks and any other malicious event in the network. Since by using the MTD we could classify the traffic into appropriate or not. Furthermore INXU - specially the MTD - could be paired with an AI engine to learn about new network patterns and classify them as an attack or some new device in the network - the system could write some new MTDs as it learns from the network. 
       </t>
-      <t></t>
-      <t></t>
-      <t></t>
-      <t></t>
     </section>
 
     <section anchor="Security" numbered="true" toc="default">
       <name>Security Considerations</name>
-      <t>All drafts are required to have a security considerations section.
-     See <xref target="RFC3552" format="default">RFC 3552</xref> for a guide.</t>
+      <t>
+        Since INXU uses MUD as a data source, the problems presented at the Security Considerations session of the <xref target="RFC8520" format="default"/> are still valid for this proposal, and some new ones arise.
+      </t>
+      <t>
+        The first new risk is the possibility of INXU causing Denial of Service on their protected IoT devices depending on how the malicious activities are described in the MTD File. To prevent this issue, while describing a malicious activity, the Security Specialist SHOULD be as specific as possible by describing, for example, the specific devices that can be affected by the attack or malware and being assertive while defining ACE risks and ACL risk thresholds.
+      </t>
+      <t>
+        As with MUD, the MTD Manager may receive a fake MTD File from a rogue MTD Server with a certificate issued by an accredited certification authority (CA). In this case, the same MUD mitigations apply: First, if the signer changes, this may be flagged as an exception by the MTD manager. Second, if the MTD file also changes, the MTD manager SHOULD seek administrator approval (it should do this in any case). In all circumstances, the MUD manager MUST maintain a cache of trusted CAs for this purpose.  When such a rogue is discovered, it SHOULD be removed.
+      </t>
+      <t>
+        Finally, INXU is not effective against attacks that are occurring prior to a new MTD file arriving or ongoing at the moment of an update. The classification of the attack is not accurate since it does not know the rules. A countermeasure is to use an anomaly detection system to identify such attacks. INXU is not responsible for that part.
+      </t>
+      <t>Further security considerations might arise during this document’s evolution.</t>
     </section>
    <section anchor="IANA" numbered="true" toc="default">
       <name>IANA Considerations</name>
@@ -1535,25 +1542,6 @@ module draft-inxu-mtd{
       </references>
       <references>
         <name>Informative References</name>
-        <reference anchor="RFC3552" target="https://www.rfc-editor.org/info/rfc3552" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
-          <front>
-            <title>Guidelines for Writing RFC Text on Security Considerations</title>
-            <seriesInfo name="DOI" value="10.17487/RFC3552"/>
-            <seriesInfo name="RFC" value="3552"/>
-            <seriesInfo name="BCP" value="72"/>
-            <author initials="E." surname="Rescorla" fullname="E. Rescorla">
-              <organization/>
-            </author>
-            <author initials="B." surname="Korver" fullname="B. Korver">
-              <organization/>
-            </author>
-            <date year="2003" month="July"/>
-            <abstract>
-              <t>All RFCs are required to have a Security Considerations section. Historically, such sections have been relatively weak. This document provides guidelines to RFC authors on how to write a good Security Considerations section. This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
-            </abstract>
-          </front>
-        </reference>
-
         <reference anchor="Mozzaquatro2015" target="https://doi.org/10.1109/IWMN.2015.7322984">
           <front>
             <title>Towards a reference ontology for security in the Internet of Things</title>

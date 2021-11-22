@@ -129,8 +129,8 @@ Internet-Draft                    INXU                     November 2021
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  36
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  36
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  37
-   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .  37
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  37
+   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .  38
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  38
 
 1.  Introduction
 
@@ -762,7 +762,7 @@ Internet-Draft                    INXU                     November 2021
      contact
        "WG Web: http://tools.ietf.org/wg/iotops/
         WG List: iotops@ietf.org
-        Author: Savyo Morais
+        Author: Sávyo Morais
         savyovm@gmail.com
         Author: Claudio Farias
         cmicelifarias@gmail.com";
@@ -1968,14 +1968,39 @@ Internet-Draft                    INXU                     November 2021
    device in the network - the system could write some new MTDs as it
    learns from the network.
 
-
-
-
-
 5.  Security Considerations
 
-   All drafts are required to have a security considerations section.
-   See RFC 3552 [RFC3552] for a guide.
+   Since INXU uses MUD as a data source, the problems presented at the
+   Security Considerations session of the [RFC8520] are still valid for
+   this proposal, and some new ones arise.
+
+   The first new risk is the possibility of INXU causing Denial of
+   Service on their protected IoT devices depending on how the malicious
+   activities are described in the MTD File.  To prevent this issue,
+   while describing a malicious activity, the Security Specialist SHOULD
+   be as specific as possible by describing, for example, the specific
+   devices that can be affected by the attack or malware and being
+   assertive while defining ACE risks and ACL risk thresholds.
+
+   As with MUD, the MTD Manager may receive a fake MTD File from a rogue
+   MTD Server with a certificate issued by an accredited certification
+   authority (CA).  In this case, the same MUD mitigations apply: First,
+   if the signer changes, this may be flagged as an exception by the MTD
+   manager.  Second, if the MTD file also changes, the MTD manager
+   SHOULD seek administrator approval (it should do this in any case).
+   In all circumstances, the MUD manager MUST maintain a cache of
+   trusted CAs for this purpose.  When such a rogue is discovered, it
+   SHOULD be removed.
+
+   Finally, INXU is not effective against attacks that are occurring
+   prior to a new MTD file arriving or ongoing at the moment of an
+   update.  The classification of the attack is not accurate since it
+   does not know the rules.  A countermeasure is to use an anomaly
+   detection system to identify such attacks.  INXU is not responsible
+   for that part.
+
+   Further security considerations might arise during this document's
+   evolution.
 
 6.  IANA Considerations
 
@@ -1984,6 +2009,14 @@ Internet-Draft                    INXU                     November 2021
 7.  References
 
 7.1.  Normative References
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 36]
+
+Internet-Draft                    INXU                     November 2021
+
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2008,16 +2041,6 @@ Internet-Draft                    INXU                     November 2021
    [RFC7950]  Bjorklund, M., "The YANG 1.1 Data Modeling Language",
               August 2016, <https://rfc-editor.org/rfc/rfc7950.txt>.
 
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 36]
-
-Internet-Draft                    INXU                     November 2021
-
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", May 2017,
               <https://rfc-editor.org/rfc/rfc8174.txt>.
@@ -2041,10 +2064,15 @@ Internet-Draft                    INXU                     November 2021
               the Internet of Things", 2015,
               <https://doi.org/10.1109/IWMN.2015.7322984>.
 
-   [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
-              Text on Security Considerations", BCP 72, RFC 3552,
-              DOI 10.17487/RFC3552, July 2003,
-              <https://www.rfc-editor.org/info/rfc3552>.
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 37]
+
+Internet-Draft                    INXU                     November 2021
+
 
 Appendix A.  Additional Stuff
 
@@ -2069,4 +2097,32 @@ Authors' Addresses
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 37]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 38]

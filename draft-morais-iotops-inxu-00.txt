@@ -141,25 +141,25 @@ Internet-Draft                    INXU                     November 2021
    Firewall and Intrusion Detection/Prevention Systems (IDS/IPS) rules
    up to date.
 
-   In some way, the Manufacturer Usage Description (MUD) RFC 8520
-   [RFC8520] provides an alternative protection by reducing the
-   capability of an IoT device being exploited -- as vector or target --
-   by malicious activities over the Internet.  MUD does this by
-   providing means to automatically build an allow-list of the IoT
-   devices in a network based on the device manufacturers specification
-   of expected traffic.  This improves devices security by reducing
-   their threat surface by blocking traffic with unexpected nodes/
-   protocols, but still allows attacks which exploit vulnerabilities
-   into the allowed traffic.
+   In some way, the Manufacturer Usage Description (MUD) [RFC8520]
+   provides an alternative protection by reducing the capability of an
+   IoT device being exploited -- as vector or target -- by malicious
+   activities over the Internet.  MUD does this by providing means to
+   automatically build an allow-list of the IoT devices in a network
+   based on the device manufacturers specification of expected traffic.
+   This improves devices security by reducing their threat surface by
+   blocking traffic with unexpected nodes/protocols, but still allows
+   attacks which exploit vulnerabilities into the allowed traffic.
 
-   Besides this lack, the implementation of the RFC 8520 [RFC8520]
-   provides information that can support the identification of well-
-   known vulnerabilities, as mentioned in its specification.  This can
-   be done by combining the allow-lists provided by the MUD manager into
-   a communication graph of the connected IoT devices.  With the
+   Besides this lack, the implementation of the [RFC8520] provides
+   information that can support the identification of well-known
+   vulnerabilities, as mentioned in its specification.  This can be done
+   by combining the allow-lists provided by the MUD manager into a
+   communication graph of the connected IoT devices.  With the
    communication graph, we can compare the traffic allowed by MUD with
    signatures of well-known malicious activities to identify -- and
    potentially block -- exposure of vulnerabilities into the network.
+
 
 
 
@@ -254,8 +254,8 @@ Internet-Draft                    INXU                     November 2021
 1.2.  Key Aspects
 
    This work in progress aims to propose a tool that reinforces IoT
-   networks' security by extending the functions provided by the RFC
-   8520 [RFC8520].  The specific contributions of INXU are listed below:
+   networks' security by extending the functions provided by the
+   [RFC8520].  The specific contributions of INXU are listed below:
 
    *  Simplify the process of sharing attack signatures that targets or
       exploits IoT systems;
@@ -326,10 +326,10 @@ Internet-Draft                    INXU                     November 2021
    activity that exploits it and the grouping of vulnerabilities related
    to the same malicious activity.
 
-   The MTD data model makes use of Access Control Lists (ACLs) RFC 8519
-   [RFC8519] under YANG language RFC 7950 [RFC7950] to describe the
-   malicious traffic, addressing the classification feature.
-   Furthermore, such as in MUD, there are available two network address
+   The MTD data model makes use of Access Control Lists (ACLs) [RFC8519]
+   under YANG language [RFC7950] to describe the malicious traffic,
+   addressing the classification feature.  Furthermore, such as in MUD,
+   there are available two network address abstractions to describe the
 
 
 
@@ -338,12 +338,12 @@ Morais & Farias            Expires 26 May 2022                  [Page 6]
 Internet-Draft                    INXU                     November 2021
 
 
-   abstractions to describe the traffic so that different networks can
-   adapt the description to its context: one abstraction for addresses
-   in the local networks, and the other for using domain names to hosts
-   on the Internet.  The data model also includes control fields that
-   support the manageability of the MTD File, so the contained data can
-   be categorized in control data and description data.
+   traffic so that different networks can adapt the description to its
+   context: one abstraction for addresses in the local networks, and the
+   other for using domain names to hosts on the Internet.  The data
+   model also includes control fields that support the manageability of
+   the MTD File, so the contained data can be categorized in control
+   data and description data.
 
    The description of malicious traffic can be divided into two
    categories:
@@ -432,7 +432,7 @@ Internet-Draft                    INXU                     November 2021
 
    A simplified graphical representation of the data models is used in
    this document.  The meaning of the symbols in these diagrams is
-   explained in RFC 8340 [RFC8340].
+   explained in [RFC8340].
 
    module: draft-inxu-mtd
      +--rw mtd!
@@ -1722,9 +1722,9 @@ Internet-Draft                    INXU                     November 2021
    verifying authenticity, and requesting a new file when the current
    file validity expires.  The default way to ensure MTD File
    authenticity is by HTTPS protocol, but the MTD Manager can also use
-   the means described in the Section 3.1 of the RFC 2818 [RFC2818].  At
-   the end of the process, the MTD Manager forwards the MTD File to the
-   INXU Module.
+   the means described in the Section 3.1 of the [RFC2818].  At the end
+   of the process, the MTD Manager forwards the MTD File to the INXU
+   Module.
 
    The INXU (Intra-Network eXposure analyzer Utility) module is the main
    component of this proposal.  It is responsible for verifying all the
@@ -1772,10 +1772,10 @@ Internet-Draft                    INXU                     November 2021
 
    The main method for acquiring a MTD File is by configuring the MTD
    URL into the MTD Manager.  The MTD URL is a Universal Resource
-   Locator (URL) RFC 3986 [RFC3986] provided by the Security Experts
-   team designated for protecting the network.
+   Locator (URL) [RFC3986] provided by the Security Experts team
+   designated for protecting the network.
 
-   MTD URLs MUST use the "https" scheme RFC 7230 [RFC7230].
+   MTD URLs MUST use the "https" scheme [RFC7230].
 
    An alternative manner for acquiring a MTD File is by manually
    importing and its respective signature file into the MTD Manager.
@@ -1798,19 +1798,19 @@ Internet-Draft                    INXU                     November 2021
 
    Disclaimer: The specification in this section is in our roadmap but
    still not done.  Our initial intention is to use the same
-   specification as RFC 8520 [RFC8520] in Section 1.6.  To simplify
+   specification as [RFC8520] in Section 1.6.  To simplify
    understanding, we copied the original MUD text, pasted it below, and
    replaced the MUD references with MTD.
 
    MTD Managers that are able to do so SHOULD retrieve MTD URLs and
-   signature files as per RFC 7230 [RFC7230], using the GET method RFC
-   7231 [RFC7231].  They MUST validate the certificate using the rules
-   in RFC 2818 [RFC2818], Section 3.1.
+   signature files as per [RFC7230], using the GET method [RFC7231].
+   They MUST validate the certificate using the rules in [RFC2818],
+   Section 3.1.
 
-   Requests for MTD URLs SHOULD include an "Accept" header field (RFC
-   7231 [RFC7231], Section 5.3.2) containing "application/mtd+json", an
-   "Accept-Language" header field (RFC 7231 [RFC7231], Section 5.3.5),
-   and a "User-Agent" header field (RFC 7231 [RFC7231], Section 5.5.3).
+   Requests for MTD URLs SHOULD include an "Accept" header field
+   ([RFC7231], Section 5.3.2) containing "application/mtd+json", an
+   "Accept-Language" header field ([RFC7231], Section 5.3.5), and a
+   "User-Agent" header field ([RFC7231], Section 5.5.3).
 
    MTD Managers SHOULD automatically process 3xx response status codes.
 

@@ -80,10 +80,10 @@
         While more Internet of Things (IoT) devices are deployed, the vulnerability management process turns even more difficult. This is mostly caused by the high heterogeneity and density of the IoT systems and devices, and challenges security teams on keeping Firewall and Intrusion Detection/Prevention Systems (IDS/IPS) rules up to date.
       </t>
       <t>
-        In some way, the Manufacturer Usage Description (MUD) <xref target="RFC8520" format="default">RFC 8520</xref> provides an alternative protection by reducing the capability of an IoT device being exploited -- as vector or target -- by malicious activities over the Internet. MUD does this by providing means to automatically build an allow-list of the IoT devices in a network based on the device manufacturers specification of expected traffic. This improves devices security by reducing their threat surface by blocking traffic with unexpected nodes/protocols, but still allows attacks which exploit vulnerabilities into the allowed traffic.
+        In some way, the Manufacturer Usage Description (MUD) <xref target="RFC8520" format="default"/> provides an alternative protection by reducing the capability of an IoT device being exploited -- as vector or target -- by malicious activities over the Internet. MUD does this by providing means to automatically build an allow-list of the IoT devices in a network based on the device manufacturers specification of expected traffic. This improves devices security by reducing their threat surface by blocking traffic with unexpected nodes/protocols, but still allows attacks which exploit vulnerabilities into the allowed traffic.
       </t>
       <t>
-        Besides this lack, the implementation of the <xref target="RFC8520" format="default">RFC 8520</xref> provides information that can support the identification of well-known vulnerabilities, as mentioned in its specification. This can be done by combining the allow-lists provided by the MUD manager into a communication graph of the connected IoT devices. With the communication graph, we can compare the traffic allowed by MUD with signatures of well-known malicious activities to identify -- and potentially block -- exposure of vulnerabilities into the network.
+        Besides this lack, the implementation of the <xref target="RFC8520" format="default"/> provides information that can support the identification of well-known vulnerabilities, as mentioned in its specification. This can be done by combining the allow-lists provided by the MUD manager into a communication graph of the connected IoT devices. With the communication graph, we can compare the traffic allowed by MUD with signatures of well-known malicious activities to identify -- and potentially block -- exposure of vulnerabilities into the network.
       </t>
       <t>
         Integrating this analysis in traditional IDS or IPS can improve their efficacy and cover the MUD lack, but they only apply for scenarios where there is a security management team, such as corporate, smart grid and industrial IoT networks. On the other hand, in scenarios where there is a high heterogeneity of devices and low (or none) specialized support, such as in Home IoT Networks and Smart Cities, the process for keeping the attack signatures updated is not that simple.
@@ -115,7 +115,7 @@
       <section numbered="true" toc="default">
         <name>Key Aspects</name>
         <t>
-          This work in progress aims to propose a tool that reinforces IoT networks' security by extending the functions provided by the <xref target="RFC8520" format="default">RFC 8520</xref>. The specific contributions of INXU are listed below:
+          This work in progress aims to propose a tool that reinforces IoT networks' security by extending the functions provided by the <xref target="RFC8520" format="default"/>. The specific contributions of INXU are listed below:
         </t>
         <ul spacing="normal">
           <li>Simplify the process of sharing attack signatures that targets or exploits IoT systems;</li>
@@ -154,7 +154,7 @@
         The main aim of this data model is to enable describing malicious traffic so that distinct networks can interpret and implement security measures, no matter the connected IoT devices or network topology. Another feature addressed by this data model is allowing the association between the detected exposure and the malicious activity that exploits it and the grouping of vulnerabilities related to the same malicious activity.
       </t>
       <t>
-        The MTD data model makes use of Access Control Lists (ACLs) <xref target="RFC8519" format="default">RFC 8519</xref> under YANG language <xref target="RFC7950" format="default">RFC 7950</xref> to describe the malicious traffic, addressing the classification feature. Furthermore, such as in MUD, there are available two network address abstractions to describe the traffic so that different networks can adapt the description to its context: one abstraction for addresses in the local networks, and the other for using domain names to hosts on the Internet. The data model also includes control fields that support the manageability of the MTD File, so the contained data can be categorized in control data and description data.
+        The MTD data model makes use of Access Control Lists (ACLs) <xref target="RFC8519" format="default"/> under YANG language <xref target="RFC7950" format="default"/> to describe the malicious traffic, addressing the classification feature. Furthermore, such as in MUD, there are available two network address abstractions to describe the traffic so that different networks can adapt the description to its context: one abstraction for addresses in the local networks, and the other for using domain names to hosts on the Internet. The data model also includes control fields that support the manageability of the MTD File, so the contained data can be categorized in control data and description data.
       </t>
       <t>
         The description of malicious traffic can be divided into two categories:
@@ -211,7 +211,7 @@
       <section numbered="true" toc="default">
         <name>The draft-inxu-mtd YANG Module</name>
         <t>
-          A simplified graphical representation of the data models is used in this document. The meaning of the symbols in these diagrams is explained in <xref target="RFC8340" format="default">RFC 8340</xref>.
+          A simplified graphical representation of the data models is used in this document. The meaning of the symbols in these diagrams is explained in <xref target="RFC8340" format="default"/>.
         </t>
         <artwork name="" type="" align="left" alt=""><![CDATA[
 module: draft-inxu-mtd
@@ -1292,7 +1292,7 @@ module draft-inxu-mtd{
           The MTD Server is responsible for storing and delivering the malicious traffic descriptions made by a security expert. This component was designed to enable trusted third-party specialists to share knowledge about well-known malicious activities affecting IoT and allow IoT networks to make use of this knowledge to protect themselves. The MTD Server is composed by a HTTPS server that hosts and delivers the MTD File for the clients. The MTD File is a file where the network traffic associated with malicious activities are described to INXU. This component also contains data for version control, authenticity, and validity time. The content of a MTD File is defined by a security expert in a JSON file, following the YANG data model described in the Section <xref target="mtd" format="default">2</xref>.
         </t>
         <t>
-          The MTD Manager has the function of managing the MTD File on the system. It is responsible for requesting the file to the MTD Server, verifying authenticity, and requesting a new file when the current file validity expires. The default way to ensure MTD File authenticity is by HTTPS protocol, but the MTD Manager can also use the means described in the Section 3.1 of the <xref target="RFC2818" format="default">RFC 2818</xref>. At the end of the process, the MTD Manager forwards the MTD File to the INXU Module.
+          The MTD Manager has the function of managing the MTD File on the system. It is responsible for requesting the file to the MTD Server, verifying authenticity, and requesting a new file when the current file validity expires. The default way to ensure MTD File authenticity is by HTTPS protocol, but the MTD Manager can also use the means described in the Section 3.1 of the <xref target="RFC2818" format="default"/>. At the end of the process, the MTD Manager forwards the MTD File to the INXU Module.
         </t>
         <t>
           The INXU (Intra-Network eXposure analyzer Utility) module is the main component of this proposal. It is responsible for verifying all the network communications trying to identify possible exposures to malicious traffic. To do this, the INXU Module compares the malicious traffic described in a MTD File with the network graph generated by MUD manager. The exposure analysis process is detailed in Section <xref target="inxu_alg" format="default">3.5</xref>.
@@ -1325,10 +1325,10 @@ module draft-inxu-mtd{
       <section numbered="true" toc="default">
         <name>Acquiring a MTD File</name>
         <t>
-          The main method for acquiring a MTD File is by configuring the MTD URL into the MTD Manager. The MTD URL is a Universal Resource Locator (URL) <xref target="RFC3986" format="default">RFC 3986</xref> provided by the Security Experts team designated for protecting the network.
+          The main method for acquiring a MTD File is by configuring the MTD URL into the MTD Manager. The MTD URL is a Universal Resource Locator (URL) <xref target="RFC3986" format="default"/> provided by the Security Experts team designated for protecting the network.
         </t>
         <t>
-          MTD URLs MUST use the "https" scheme <xref target="RFC7230" format="default">RFC 7230</xref>.
+          MTD URLs MUST use the "https" scheme <xref target="RFC7230" format="default"/>.
         </t>
         <t>
           An alternative manner for acquiring a MTD File is by manually importing and its respective signature file into the MTD Manager. The mechanisms for doing so are not described in this document.
@@ -1337,13 +1337,13 @@ module draft-inxu-mtd{
       <section numbered="true" toc="default">
         <name>Processing a MTD URL</name>
         <t>
-          Disclaimer: The specification in this section is in our roadmap but still not done. Our initial intention is to use the same specification as <xref target="RFC8520" format="default">RFC 8520</xref> in Section 1.6. To simplify understanding, we copied the original MUD text, pasted it below, and replaced the MUD references with MTD.
+          Disclaimer: The specification in this section is in our roadmap but still not done. Our initial intention is to use the same specification as <xref target="RFC8520" format="default"/> in Section 1.6. To simplify understanding, we copied the original MUD text, pasted it below, and replaced the MUD references with MTD.
         </t>
         <t>
-          MTD Managers that are able to do so SHOULD retrieve MTD URLs and signature files as per <xref target="RFC7230" format="default">RFC 7230</xref>, using the GET method <xref target="RFC7231" format="default">RFC 7231</xref>. They MUST validate the certificate using the rules in <xref target="RFC2818" format="default">RFC 2818</xref>, Section 3.1.
+          MTD Managers that are able to do so SHOULD retrieve MTD URLs and signature files as per <xref target="RFC7230" format="default"/>, using the GET method <xref target="RFC7231" format="default"/>. They MUST validate the certificate using the rules in <xref target="RFC2818" format="default"/>, Section 3.1.
         </t>
         <t>
-          Requests for MTD URLs SHOULD include an "Accept" header field (<xref target="RFC7231" format="default">RFC 7231</xref>, Section 5.3.2) containing "application/mtd+json", an "Accept-Language" header field (<xref target="RFC7231" format="default">RFC 7231</xref>, Section 5.3.5), and a "User-Agent" header field (<xref target="RFC7231" format="default">RFC 7231</xref>, Section 5.5.3).
+          Requests for MTD URLs SHOULD include an "Accept" header field (<xref target="RFC7231" format="default"/>, Section 5.3.2) containing "application/mtd+json", an "Accept-Language" header field (<xref target="RFC7231" format="default"/>, Section 5.3.5), and a "User-Agent" header field (<xref target="RFC7231" format="default"/>, Section 5.5.3).
         </t>
         <t>
           MTD Managers SHOULD automatically process 3xx response status codes.

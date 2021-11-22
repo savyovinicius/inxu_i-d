@@ -506,9 +506,16 @@ module draft-inxu-mtd{
 
   revision 2021-11-22{
     description "Initial revision.";
+    reference
+      "draft-morais-iotops-inxu-00: Intra-Network eXposure analyzer 
+                                    Utility Specification";
   }
 
   typedef action-to-take {
+    description
+      "Type to specify the action to take when a malware threat 
+      is detected";
+
     type enumeration {
       enum "alert" {
         value 0;
@@ -556,12 +563,14 @@ module draft-inxu-mtd{
     }
 
     leaf last-update {
-      type yang:date-and-time;
-      mandatory true;
       description 
         "This is intended to be set when the current MTD File is 
         generated. MTD Managers SHOULD NOT check for updates 
         between this time plus cache validity.";
+
+      type yang:date-and-time;
+      
+      mandatory true;
     }
 
     leaf mtd-signature {
@@ -741,6 +750,11 @@ module draft-inxu-mtd{
         list to-device-not-attack-traffic {
           key "name";
 
+          description
+            "The list of malicious incoming traffic 
+            related to malware's operation that is 
+            not categorized as attack";
+
           leaf name {
             type leafref {
               path "/acl:acls/acl:acl/acl:name";
@@ -755,6 +769,11 @@ module draft-inxu-mtd{
 
         list from-device-not-attack-traffic {
           key "name";
+
+          description
+            "The list of malicious outgoing traffic 
+            related to malware's operation that is 
+            not categorized as attack";
 
           leaf name {
             type leafref {

@@ -465,7 +465,7 @@ module: draft-inxu-mtd
       <section numbered="true" toc="default">
         <name>The MTD YANG Model</name>
         <artwork align="left" name="" type="" alt=""><![CDATA[
-<CODE BEGINS>file "draft-inxu-mtd@2021-10-[[TO DO]].yang"
+<CODE BEGINS>file "draft-inxu-mtd@2021-11-22.yang"
 module draft-inxu-mtd{
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:draft-inxu-mtd";
@@ -504,7 +504,7 @@ module draft-inxu-mtd{
     "This module is a data-model to discribe malicious network 
     traffic";
 
-  revision 2021-10-[[TO DO]]{
+  revision 2021-11-22{
     description "Initial revision.";
   }
 

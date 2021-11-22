@@ -105,7 +105,7 @@ Table of Contents
        2.4.5.  risk-threshold  . . . . . . . . . . . . . . . . . . .  13
        2.4.6.  alert-threshold . . . . . . . . . . . . . . . . . . .  13
      2.5.  The MTD YANG Model  . . . . . . . . . . . . . . . . . . .  14
-     2.6.  MTD File Example  . . . . . . . . . . . . . . . . . . . .  22
+     2.6.  MTD File Example  . . . . . . . . . . . . . . . . . . . .  23
 
 
 
@@ -114,23 +114,23 @@ Morais & Farias            Expires 26 May 2022                  [Page 2]
 Internet-Draft                    INXU                     November 2021
 
 
-   3.  The Intra-Network eXposure analyzer Utility . . . . . . . . .  30
+   3.  The Intra-Network eXposure analyzer Utility . . . . . . . . .  31
      3.1.  INXU Architecture and Components  . . . . . . . . . . . .  31
-     3.2.  Workflow  . . . . . . . . . . . . . . . . . . . . . . . .  32
+     3.2.  Workflow  . . . . . . . . . . . . . . . . . . . . . . . .  33
      3.3.  Acquiring a MTD File  . . . . . . . . . . . . . . . . . .  33
-     3.4.  Processing a MTD URL  . . . . . . . . . . . . . . . . . .  33
+     3.4.  Processing a MTD URL  . . . . . . . . . . . . . . . . . .  34
      3.5.  INXU Vulnerability Analysis Process . . . . . . . . . . .  34
-       3.5.1.  Exposure Identification . . . . . . . . . . . . . . .  34
+       3.5.1.  Exposure Identification . . . . . . . . . . . . . . .  35
        3.5.2.  ACL Risk Assessment . . . . . . . . . . . . . . . . .  35
        3.5.3.  Threat Analysis . . . . . . . . . . . . . . . . . . .  35
-   4.  Further Considerations and Next Steps . . . . . . . . . . . .  35
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  36
+   4.  Further Considerations and Next Steps . . . . . . . . . . . .  36
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  37
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  37
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  37
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  37
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  38
-   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .  38
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  38
+   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .  39
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  39
 
 1.  Introduction
 
@@ -768,16 +768,16 @@ Internet-Draft                    INXU                     November 2021
         cmicelifarias@gmail.com";
 
      description
-       "This module is a data-model to discribe malicious network
-       traffic";
+       "This module is a data-model to describe malicious network
+       traffic.
 
-     revision 2021-11-22{
-       description "Initial revision.";
-       reference
-         "draft-morais-iotops-inxu-00: Intra-Network eXposure analyzer
-                                       Utility Specification";
-     }
+       This module is intended to be serialized via JSON and stored
+       as a file, as described in I-D draft-morais-iotops-inxu-00.
 
+       The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+       NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+       'MAY', and 'OPTIONAL' in this document are to be interpreted as
+       described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
 
 
 
@@ -785,6 +785,29 @@ Morais & Farias            Expires 26 May 2022                 [Page 14]
 
 Internet-Draft                    INXU                     November 2021
 
+
+       they appear in all capitals, as shown here.
+
+       Copyright (c) 2021 IETF Trust and the persons identified as
+       authors of the code.  All rights reserved.
+
+       Redistribution and use in source and binary forms, with or
+       without modification, is permitted pursuant to, and subject
+       to the license terms contained in, the Simplified BSD License
+       set forth in Section 4.c of the IETF Trust's Legal Provisions
+       Relating to IETF Documents
+       (http://trustee.ietf.org/license-info).
+
+       This version of this YANG module is part of
+       I-D draft-morais-iotops-inxu-00; see the I-D itself for
+       full legal notices.";
+
+     revision 2021-11-22{
+       description "Initial revision.";
+       reference
+         "draft-morais-iotops-inxu-00: Intra-Network eXposure analyzer
+                                       Utility Specification";
+     }
 
      typedef action-to-take {
        description
@@ -811,6 +834,14 @@ Internet-Draft                    INXU                     November 2021
          }
          enum "block-all" {
            value 3;
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 15]
+
+Internet-Draft                    INXU                     November 2021
+
+
            description
              "Block all malware related exposures and alert
              users about the block";
@@ -834,26 +865,16 @@ Internet-Draft                    INXU                     November 2021
          mandatory true;
          description
            "This is the MTD URL associated with the entry found
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 15]
-
-Internet-Draft                    INXU                     November 2021
-
-
            in a MTD File";
        }
 
        leaf last-update {
+         type yang:date-and-time;
+         mandatory true;
          description
            "This is intended to be set when the current MTD File is
            generated. MTD Managers SHOULD NOT check for updates
            between this time plus cache validity.";
-
-         type yang:date-and-time;
-
-         mandatory true;
        }
 
        leaf mtd-signature {
@@ -869,6 +890,14 @@ Internet-Draft                    INXU                     November 2021
          }
 
          units "hours";
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 16]
+
+Internet-Draft                    INXU                     November 2021
+
+
          default "48";
          description
            "The information retrieved from the MTD Server is
@@ -889,14 +918,6 @@ Internet-Draft                    INXU                     November 2021
 
            uses attack-lists;
          }
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 16]
-
-Internet-Draft                    INXU                     November 2021
-
 
          container from-device-attacks {
            description
@@ -926,6 +947,13 @@ Internet-Draft                    INXU                     November 2021
            "The access lists of the attack's malicious traffic
            targeting or departing from the local IoT devices.";
 
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 17]
+
+Internet-Draft                    INXU                     November 2021
+
+
          list attack-list {
            key "name";
 
@@ -945,14 +973,6 @@ Internet-Draft                    INXU                     November 2021
 
            leaf-list specific-devices {
              type inet:uri;
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 17]
-
-Internet-Draft                    INXU                     November 2021
-
 
              description
                "List of MUD URLs of specific devices
@@ -982,6 +1002,14 @@ Internet-Draft                    INXU                     November 2021
          }
 
          leaf-list specific-devices {
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 18]
+
+Internet-Draft                    INXU                     November 2021
+
+
            type inet:uri;
 
            description
@@ -1002,14 +1030,6 @@ Internet-Draft                    INXU                     November 2021
 
              description
                "The critical ACL set name";
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 18]
-
-Internet-Draft                    INXU                     November 2021
-
-
            }
 
            leaf-list critical-acl-set {
@@ -1038,6 +1058,14 @@ Internet-Draft                    INXU                     November 2021
              "The set of attack traffic performed by the
              infected IoT device";
 
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 19]
+
+Internet-Draft                    INXU                     November 2021
+
+
            uses attack-lists;
          }
 
@@ -1058,14 +1086,6 @@ Internet-Draft                    INXU                     November 2021
              key "name";
 
              description
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 19]
-
-Internet-Draft                    INXU                     November 2021
-
-
                "The list of malicious incoming traffic
                related to malware's operation that is
                not categorized as attack";
@@ -1095,6 +1115,13 @@ Internet-Draft                    INXU                     November 2021
                  path "/acl:acls/acl:acl/acl:name";
                }
 
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 20]
+
+Internet-Draft                    INXU                     November 2021
+
+
                description
                  "The set of not attack traffic
                  related to the malware trageting the
@@ -1114,14 +1141,6 @@ Internet-Draft                    INXU                     November 2021
          leaf local-networks {
            type empty;
            description
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 20]
-
-Internet-Draft                    INXU                     November 2021
-
-
              "IP addresses will match this node if they are
              considered local addresses. A local address may be
              a list of locally defined prefixes and masks
@@ -1151,6 +1170,14 @@ Internet-Draft                    INXU                     November 2021
        leaf risk-threshold {
          type uint8;
          default "1";
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 21]
+
+Internet-Draft                    INXU                     November 2021
+
+
          description
            "The acceptable risk threshold represents the minimum
            risk value for the exposure be considered a risk.
@@ -1170,14 +1197,6 @@ Internet-Draft                    INXU                     November 2021
      }
 
      augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches"
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 21]
-
-Internet-Draft                    INXU                     November 2021
-
-
        + "/acl:l4/acl:tcp/acl:tcp" {
        description
          "Add direction-initiated";
@@ -1207,6 +1226,14 @@ Internet-Draft                    INXU                     November 2021
        deviate not-supported;
        description
          "Field not used in this specification";
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 22]
+
+Internet-Draft                    INXU                     November 2021
+
+
      }
    }
    <CODE ENDS>
@@ -1226,14 +1253,6 @@ Internet-Draft                    INXU                     November 2021
        "last-update":"2021-02-10T19:30:30-03:00",
        "attack-descriptions":{
          "to-device-attacks": {
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 22]
-
-Internet-Draft                    INXU                     November 2021
-
-
            "attack-lists": {
              "attack-list": [{}]
            }
@@ -1263,6 +1282,14 @@ Internet-Draft                    INXU                     November 2021
                {
                  "name":"mirai-prevet-cnc",
                  "critical-acl-set":
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 23]
+
+Internet-Draft                    INXU                     November 2021
+
+
                  [
                    {"name":"mirai_cnc_v4from"},
                    {"name":"mirai_cnc_v4to"}
@@ -1282,14 +1309,6 @@ Internet-Draft                    INXU                     November 2021
                },
              ],
              "to-device-attacks": {
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 23]
-
-Internet-Draft                    INXU                     November 2021
-
-
                "attack-lists": {
                  "attack-list": [
                    {"name":"mirai_infect_v4to"},
@@ -1319,6 +1338,14 @@ Internet-Draft                    INXU                     November 2021
        "ietf-access-control-list:acls": {
          "acl": [
            {
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 24]
+
+Internet-Draft                    INXU                     November 2021
+
+
              "name":"mirai_infect_v4to",
              "risk-threshold":11,
              "type": "ipv4-acl-type",
@@ -1338,14 +1365,6 @@ Internet-Draft                    INXU                     November 2021
                          "operator":"eq",
                          "port":23
                        }
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 24]
-
-Internet-Draft                    INXU                     November 2021
-
-
                      }
                    }
                  },
@@ -1375,6 +1394,14 @@ Internet-Draft                    INXU                     November 2021
                          mud:gateway",
                        "protocol":6
                      },
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 25]
+
+Internet-Draft                    INXU                     November 2021
+
+
                      "tcp":{
                        "source-port":{
                          "operator":"eq",
@@ -1394,14 +1421,6 @@ Internet-Draft                    INXU                     November 2021
                "ace": [
                  {
                    "name":"scan_23_to",
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 25]
-
-Internet-Draft                    INXU                     November 2021
-
-
                    "risk":10,
                    "matches":{
                      "ietf-mud:mud":{
@@ -1431,6 +1450,14 @@ Internet-Draft                    INXU                     November 2021
                      "tcp":{
                        "source-port":{
                          "operator":"eq",
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 26]
+
+Internet-Draft                    INXU                     November 2021
+
+
                          "port":2323
                        },
                      }
@@ -1450,14 +1477,6 @@ Internet-Draft                    INXU                     November 2021
                          "operator":"eq",
                          "port":48101
                        },
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 26]
-
-Internet-Draft                    INXU                     November 2021
-
-
                      }
                    }
                  }
@@ -1487,6 +1506,14 @@ Internet-Draft                    INXU                     November 2021
                      }
                    }
                  },
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 27]
+
+Internet-Draft                    INXU                     November 2021
+
+
                  {
                    "name":"infect_2323_from",
                    "risk":10,
@@ -1506,14 +1533,6 @@ Internet-Draft                    INXU                     November 2021
                  },
                  {
                    "name":"bin_download_from",
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 27]
-
-Internet-Draft                    INXU                     November 2021
-
-
                    "risk":1,
                    "matches":{
                      "ipv4":{
@@ -1543,6 +1562,14 @@ Internet-Draft                    INXU                     November 2021
                    "risk":10,
                    "matches":{
                      "ietf-mud:mud":{
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 28]
+
+Internet-Draft                    INXU                     November 2021
+
+
                        "local-networks":[ null ]
                      },
                      "ipv4":{
@@ -1562,14 +1589,6 @@ Internet-Draft                    INXU                     November 2021
                    "matches":{
                      "ietf-mud:mud":{
                        "local-networks":[ null ]
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 28]
-
-Internet-Draft                    INXU                     November 2021
-
-
                      },
                      "ipv4":{
                        "protocol":6
@@ -1599,6 +1618,14 @@ Internet-Draft                    INXU                     November 2021
                      }
                    }
                  }
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 29]
+
+Internet-Draft                    INXU                     November 2021
+
+
                ]
              }
            },
@@ -1618,14 +1645,6 @@ Internet-Draft                    INXU                     November 2021
                      },
                      "tcp":{
                        "source-port":{
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 29]
-
-Internet-Draft                    INXU                     November 2021
-
-
                          "operator":"eq",
                          "port":2030
                        },
@@ -1655,6 +1674,14 @@ Internet-Draft                    INXU                     November 2021
                          "port":2030
                        }
                      }
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 30]
+
+Internet-Draft                    INXU                     November 2021
+
+
                    }
                  }
                ]
@@ -1674,14 +1701,6 @@ Internet-Draft                    INXU                     November 2021
    measures on the network edge, avoiding the disclosure of private
    information to third parties.
 
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 30]
-
-Internet-Draft                    INXU                     November 2021
-
-
    To cover these requirements, INXU enables a security expert team -
    such as a SOC or an ISP Abuse Desk - to describe the traffic of
    ongoing malicious activities using the MTD data model (more details
@@ -1696,6 +1715,28 @@ Internet-Draft                    INXU                     November 2021
    The ASCII diagram below shows the architecture of INXU.  The proposed
    architecture contains 4 main components: MTD Server, MTD Manager,
    INXU Module, and MUD manager [RFC8520].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 31]
+
+Internet-Draft                    INXU                     November 2021
+
 
    ...................................................
    . End system network edge                        .
@@ -1718,25 +1759,6 @@ Internet-Draft                    INXU                     November 2021
          |      (https)    |   MTD    |
          +----->get URL>-->|  Server  |
                            |__________|
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 31]
-
-Internet-Draft                    INXU                     November 2021
-
 
    The MTD Server is responsible for storing and delivering the
    malicious traffic descriptions made by a security expert.  This
@@ -1764,6 +1786,14 @@ Internet-Draft                    INXU                     November 2021
    component of this proposal.  It is responsible for verifying all the
    network communications trying to identify possible exposures to
    malicious traffic.  To do this, the INXU Module compares the
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 32]
+
+Internet-Draft                    INXU                     November 2021
+
+
    malicious traffic described in a MTD File with the network graph
    generated by MUD manager.  The exposure analysis process is detailed
    in Section 3.5.
@@ -1783,16 +1813,6 @@ Internet-Draft                    INXU                     November 2021
 
    4.  INXU Module identifies potential vulnerability exposures into the
        network.
-
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 32]
-
-Internet-Draft                    INXU                     November 2021
-
 
    5.  INXU analyzes the detected vulnerabilities to evaluate if they
        represent an effective threat.  After detecting threats, INXU may
@@ -1817,6 +1837,19 @@ Internet-Draft                    INXU                     November 2021
    importing and its respective signature file into the MTD Manager.
    The mechanisms for doing so are not described in this document.
 
+
+
+
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 33]
+
+Internet-Draft                    INXU                     November 2021
+
+
 3.4.  Processing a MTD URL
 
    Disclaimer: The specification in this section is in our roadmap but
@@ -1836,19 +1869,6 @@ Internet-Draft                    INXU                     November 2021
    "User-Agent" header field ([RFC7231], Section 5.5.3).
 
    MTD Managers SHOULD automatically process 3xx response status codes.
-
-
-
-
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 33]
-
-Internet-Draft                    INXU                     November 2021
-
 
    If a MTD Manager is not able to fetch a MTD URL, other means MAY be
    used to import the MTD File and its associated signature file.  So
@@ -1875,6 +1895,17 @@ Internet-Draft                    INXU                     November 2021
    communications, where a directed edge represents a communication
    path.
 
+
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 34]
+
+Internet-Draft                    INXU                     November 2021
+
+
 3.5.1.  Exposure Identification
 
    For each IoT node in the MUD-based communication graph, the Exposure
@@ -1899,13 +1930,6 @@ Internet-Draft                    INXU                     November 2021
    destination ports, a match happens when the specified values are
    equals OR when the ACE specifies any value.
 
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 34]
-
-Internet-Draft                    INXU                     November 2021
-
-
 3.5.2.  ACL Risk Assessment
 
    Each vulnerability exposure is associated with an ACE and is in the
@@ -1928,6 +1952,15 @@ Internet-Draft                    INXU                     November 2021
    risk exceeds the alert threshold, an alert should be triggered.  This
    category refers to the ACLs described in the attack-descriptions
    container of the MTD File.
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 35]
+
+Internet-Draft                    INXU                     November 2021
+
 
    The malware threat analysis goes through the ACLs associated with
    malwares, which are described into the malware-descriptions container
@@ -1955,13 +1988,6 @@ Internet-Draft                    INXU                     November 2021
    of filtering will not negatively impact the devices' usability nor
    the network's performance.
 
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 35]
-
-Internet-Draft                    INXU                     November 2021
-
-
    Another interesting future direction is that although INXU allows
    identifying, classifying, and mitigating malicious activities on the
    other hand it does that without any intervention from the user.  All
@@ -1984,6 +2010,14 @@ Internet-Draft                    INXU                     November 2021
    Finally, also coming from the previous statement, INXU could be used
    as an input for IPS/IDS systems in order to prevent attacks and any
    other malicious event in the network.  Since by using the MTD we
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 36]
+
+Internet-Draft                    INXU                     November 2021
+
+
    could classify the traffic into appropriate or not.  Furthermore INXU
    -- specially the MTD -- could be paired with an AI engine to learn
    about new network patterns and classify them as an attack or some new
@@ -2010,14 +2044,6 @@ Internet-Draft                    INXU                     November 2021
    if the signer changes, this may be flagged as an exception by the MTD
    manager.  Second, if the MTD file also changes, the MTD manager
    SHOULD seek administrator approval (it should do this in any case).
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 36]
-
-Internet-Draft                    INXU                     November 2021
-
-
    In all circumstances, the MUD manager MUST maintain a cache of
    trusted CAs for this purpose.  When such a rogue is discovered, it
    SHOULD be removed.
@@ -2039,6 +2065,14 @@ Internet-Draft                    INXU                     November 2021
 7.  References
 
 7.1.  Normative References
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 37]
+
+Internet-Draft                    INXU                     November 2021
+
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2067,13 +2101,6 @@ Internet-Draft                    INXU                     November 2021
               2119 Key Words", May 2017,
               <https://rfc-editor.org/rfc/rfc8174.txt>.
 
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 37]
-
-Internet-Draft                    INXU                     November 2021
-
-
    [RFC8340]  Björklund, M. and L. Berger, "YANG Tree Diagrams", March
               2018, <https://rfc-editor.org/rfc/rfc8340.txt>.
 
@@ -2092,6 +2119,16 @@ Internet-Draft                    INXU                     November 2021
               Agostinho, "Towards a reference ontology for security in
               the Internet of Things", 2015,
               <https://doi.org/10.1109/IWMN.2015.7322984>.
+
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 38]
+
+Internet-Draft                    INXU                     November 2021
+
 
 Appendix A.  Additional Stuff
 
@@ -2125,4 +2162,23 @@ Authors' Addresses
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 38]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Morais & Farias            Expires 26 May 2022                 [Page 39]

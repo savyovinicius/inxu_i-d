@@ -501,8 +501,31 @@ module draft-inxu-mtd{
      cmicelifarias@gmail.com";
 
   description 
-    "This module is a data-model to discribe malicious network 
-    traffic";
+    "This module is a data-model to describe malicious network 
+    traffic.
+
+    This module is intended to be serialized via JSON and stored
+    as a file, as described in I-D draft-morais-iotops-inxu-00.
+
+    The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+    NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+    'MAY', and 'OPTIONAL' in this document are to be interpreted as
+    described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+    they appear in all capitals, as shown here.
+
+    Copyright (c) 2021 IETF Trust and the persons identified as
+    authors of the code.  All rights reserved.
+
+    Redistribution and use in source and binary forms, with or
+    without modification, is permitted pursuant to, and subject
+    to the license terms contained in, the Simplified BSD License
+    set forth in Section 4.c of the IETF Trust's Legal Provisions
+    Relating to IETF Documents
+    (http://trustee.ietf.org/license-info).
+
+    This version of this YANG module is part of 
+    I-D draft-morais-iotops-inxu-00; see the I-D itself for 
+    full legal notices.";
 
   revision 2021-11-22{
     description "Initial revision.";
@@ -563,14 +586,12 @@ module draft-inxu-mtd{
     }
 
     leaf last-update {
+      type yang:date-and-time;
+      mandatory true;
       description 
         "This is intended to be set when the current MTD File is 
         generated. MTD Managers SHOULD NOT check for updates 
         between this time plus cache validity.";
-
-      type yang:date-and-time;
-      
-      mandatory true;
     }
 
     leaf mtd-signature {

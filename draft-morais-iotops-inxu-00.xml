@@ -145,9 +145,7 @@
           <li>MTD Server:   a web server, managed by the SOC, that hosts the MTD File.</li>
         </ul>
 
-        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-       document are to be interpreted as described in BCP 14 <xref target="RFC2119" format="default">RFC 2119</xref><xref target="RFC8174" format="default">RFC 8174</xref> when, and only when, they appear in all capitals, as shown here.</t>
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119" format="default"/><xref target="RFC8174" format="default"/> when, and only when, they appear in all capitals, as shown here.</t>
       </section>
     </section>
     <section anchor="mtd" numbered="true" toc="default">
@@ -1265,7 +1263,7 @@ module draft-inxu-mtd{
       <section numbered="true" toc="default">
         <name>INXU Architecture and Components</name>
         <t>
-          The ASCII diagram below shows the architecture of INXU. The proposed architecture contains 4 main components: MTD Server, MTD Manager, INXU Module, and MUD manager <xref target="RFC8520" format="default">RFC 8520</xref>.
+          The ASCII diagram below shows the architecture of INXU. The proposed architecture contains 4 main components: MTD Server, MTD Manager, INXU Module, and MUD manager <xref target="RFC8520" format="default"/>.
         </t>
         <artwork align="left" name="" type="" alt=""><![CDATA[
 ...................................................

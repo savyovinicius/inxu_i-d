@@ -66,7 +66,7 @@
 
    <abstract>
       <t>
-        This document proposes the Intra-Network eXposure analyzer Utility (INXU) as a vulnerability management solution for IoT networks. The goal of INXU is to extend the functions of the RFC 8520 and support a Security Experts Team on protecting multiple heterogeneous IoT networks, even when there is a few or none private information of the networks.
+        This document proposes the Intra-Network eXposure analyzer Utility (INXU) as a vulnerability management solution for IoT networks. The goal of INXU is to take advantage of the functions of the RFC 8520 to allow a Security Experts Team on protecting multiple heterogeneous IoT networks, even when there is a few or none private information of the networks.
       </t>
       <t>
         INXU identifies and analyzes the capability of an IoT device being exploited by an well known malicious activity. We also propose the Malicious Traffic Description (MTD), a data-model to describe traffic related to malicious activities.
@@ -89,7 +89,7 @@
         Integrating this analysis in traditional IDS or IPS can improve their efficacy and cover the MUD lack, but they only apply for scenarios where there is a security management team, such as corporate, smart grid and industrial IoT networks. On the other hand, in scenarios where there is a high heterogeneity of devices and low (or none) specialized support, such as in Home IoT Networks and Smart Cities, the process for keeping the attack signatures updated is not that simple.
       </t>
       <t>
-        Therefore, envisioning to overcome this gap, this document specifies INXU (Intra Network eXposure analyzer Utility) as a security extension of MUD that takes advantage of the MUD-based network communication graph to prevent the exploitation of well-known vulnerabilities. To do this, INXU blocks threats on the Local Area Network (LAN) after identifying them by comparing the signature of well-known malicious activities with the traffic flow allowed by the MUD. In short words, while MUD builds allow-lists, INXU builds a blocklist on top of MUD's allow-lists.
+        Therefore, envisioning to overcome this gap, this document proposes INXU (Intra Network eXposure analyzer Utility) as a security tool that takes advantage of the MUD-based network communication graph to prevent the exploitation of well-known vulnerabilities. To do this, INXU blocks threats on the Local Area Network (LAN) after identifying them by comparing the signature of well-known malicious activities with the traffic flow allowed by the MUD. In short words, while MUD builds allow-lists, INXU builds a blocklist on top of MUD's allow-lists.
       </t>
       <t>
         The core component of INXU is Malicious Traffic Description (MTD), a document produced by a security specialist that describes ongoing malicious activities and well-known vulnerabilities and helps INXU find chains of connected IoT devices that can expose them to a threat. On top of MUD's threat surface reduction, INXU adds another security layer that enables protection against incidents not addressed or even caused by the manufacturers.
@@ -115,18 +115,18 @@
       <section numbered="true" toc="default">
         <name>Key Aspects</name>
         <t>
-          This work in progress aims to propose a tool that reinforces IoT networks' security by extending the functions provided by the <xref target="RFC8520" format="default"/>. The specific contributions of INXU are listed below:
+          This work in progress aims to propose a tool that reinforces IoT networks' security by taking advantage of the functions provided by the <xref target="RFC8520" format="default"/>. The specific contributions of INXU are listed below:
         </t>
         <ul spacing="normal">
           <li>Simplify the process of sharing attack signatures that targets or exploits IoT systems;</li>
-          <li>Allow a short team of security specialists to protect multiple distinct IoT networks without expose the networks’ privacy;</li>
+          <li>Allow a small team of security specialists to protect multiple distinct IoT networks without expose the networks’ privacy;</li>
           <li>Protect the Internet’s ecosystem by hindering distributed attacks that targets its infrastructure.</li>
         </ul>
       </section>
       <section numbered="true" toc="default">
         <name>INXU Intended Use</name>
         <t>
-          The intended use for INXU is in the support of the vulnerability management of diverse heterogeneous IoT networks in scenarios where there is a short team of security specialists (e.g. Smart Cities). It is also intended to be used in scenarios where the end networks need their privacy kept, as Home IoT networks.
+          The intended use for INXU is in the support of the vulnerability management of diverse heterogeneous IoT networks in scenarios where there is a small team of security specialists (e.g. Smart Cities). It is also intended to be used in scenarios where the end networks need their privacy kept, as Home IoT networks.
         </t>
         <t>
           The deployment of INXU in networks populated by both IoT and general purpose devices is NOT RECOMMENDED.
@@ -434,7 +434,7 @@ module: draft-inxu-mtd
         <section numbered="true" toc="default">
           <name>direction-initiated</name>
           <t>
-            Optional field incorporated from MUD to specify the TCP connection starter.
+            Optional field incorporated from MUD to specify the TCP initiator.
           </t>
         </section>
         <section numbered="true" toc="default">

@@ -3,10 +3,10 @@
 
 
 IOT Operations Working Group                                 S.V. Morais
-Internet-Draft                                                          
+Internet-Draft                                                      IFRN
 Intended status: Standards Track                             C.M. Farias
-Expires: 26 May 2022                                                UFRJ
-                                                        22 November 2021
+Expires: 16 November 2022                                           UFRJ
+                                                             15 May 2022
 
 
          Intra-Network eXposure analyzer Utility Specification
@@ -16,10 +16,10 @@ Abstract
 
    This document proposes the Intra-Network eXposure analyzer Utility
    (INXU) as a vulnerability management solution for IoT networks.  The
-   goal of INXU is to extend the functions of the RFC 8520 and support a
-   Security Experts Team on protecting multiple heterogeneous IoT
-   networks, even when there is a few or none private information of the
-   networks.
+   goal of INXU is to take advantage of the functions of the RFC 8520 to
+   allow a Security Experts Team on protecting multiple heterogeneous
+   IoT networks, even when there is a few or none private information of
+   the networks.
 
    INXU identifies and analyzes the capability of an IoT device being
    exploited by an well known malicious activity.  We also propose the
@@ -41,11 +41,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 May 2022.
+   This Internet-Draft will expire on 16 November 2022.
 
 Copyright Notice
 
-   Copyright (c) 2021 IETF Trust and the persons identified as the
+   Copyright (c) 2022 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Morais & Farias            Expires 26 May 2022                  [Page 1]
+Morais & Farias         Expires 16 November 2022                [Page 1]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -63,9 +63,9 @@ Internet-Draft                    INXU                     November 2021
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
@@ -74,7 +74,7 @@ Table of Contents
      1.2.  Key Aspects . . . . . . . . . . . . . . . . . . . . . . .   5
      1.3.  INXU Intended Use . . . . . . . . . . . . . . . . . . . .   5
      1.4.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   6
-   2.  The MTD Data Model  . . . . . . . . . . . . . . . . . . . . .   6
+   2.  The MTD Data Model  . . . . . . . . . . . . . . . . . . . . .   7
      2.1.  The draft-inxu-mtd YANG Module  . . . . . . . . . . . . .   8
      2.2.  MTD Data Model Definition of Control Fields in the Root
            "mtd" Container . . . . . . . . . . . . . . . . . . . . .  10
@@ -84,53 +84,49 @@ Table of Contents
        2.2.4.  cache-validity  . . . . . . . . . . . . . . . . . . .  10
      2.3.  MTD Data Model Definition of Traffic Description Fields in
            the Root "mtd" Container  . . . . . . . . . . . . . . . .  10
-       2.3.1.  attack-descriptions . . . . . . . . . . . . . . . . .  11
-         2.3.1.1.  to-device-attacks . . . . . . . . . . . . . . . .  11
-         2.3.1.2.  from-device-attacks . . . . . . . . . . . . . . .  11
-       2.3.2.  attacks-list  . . . . . . . . . . . . . . . . . . . .  11
+       2.3.1.  traffic-list  . . . . . . . . . . . . . . . . . . . .  11
+         2.3.1.1.  name  . . . . . . . . . . . . . . . . . . . . . .  11
+         2.3.1.2.  specific-devices  . . . . . . . . . . . . . . . .  11
+       2.3.2.  malicious-descriptions  . . . . . . . . . . . . . . .  11
          2.3.2.1.  name  . . . . . . . . . . . . . . . . . . . . . .  11
          2.3.2.2.  specific-devices  . . . . . . . . . . . . . . . .  11
-       2.3.3.  malware-descriptions  . . . . . . . . . . . . . . . .  11
-         2.3.3.1.  name  . . . . . . . . . . . . . . . . . . . . . .  12
-         2.3.3.2.  specific-devices  . . . . . . . . . . . . . . . .  12
-         2.3.3.3.  critical-acl-sets . . . . . . . . . . . . . . . .  12
-         2.3.3.4.  to-device-attacks . . . . . . . . . . . . . . . .  12
-         2.3.3.5.  from-device-attacks . . . . . . . . . . . . . . .  12
-         2.3.3.6.  not-attack-traffic  . . . . . . . . . . . . . . .  12
-     2.4.  Augmentation to the ACL Model . . . . . . . . . . . . . .  13
-       2.4.1.  mtd:local-networks  . . . . . . . . . . . . . . . . .  13
-       2.4.2.  direction-initiated . . . . . . . . . . . . . . . . .  13
+         2.3.2.3.  critical-acl-sets . . . . . . . . . . . . . . . .  11
+         2.3.2.4.  to-device-attacks . . . . . . . . . . . . . . . .  12
+         2.3.2.5.  from-device-attacks . . . . . . . . . . . . . . .  12
+         2.3.2.6.  not-attack-traffic  . . . . . . . . . . . . . . .  12
+     2.4.  Augmentation to the ACL Model . . . . . . . . . . . . . .  12
+       2.4.1.  mtd:local-networks  . . . . . . . . . . . . . . . . .  12
+       2.4.2.  direction-initiated . . . . . . . . . . . . . . . . .  12
        2.4.3.  src-dnsname and dst-dnsname . . . . . . . . . . . . .  13
        2.4.4.  risk  . . . . . . . . . . . . . . . . . . . . . . . .  13
        2.4.5.  risk-threshold  . . . . . . . . . . . . . . . . . . .  13
        2.4.6.  alert-threshold . . . . . . . . . . . . . . . . . . .  13
-     2.5.  The MTD YANG Model  . . . . . . . . . . . . . . . . . . .  14
-     2.6.  MTD File Example  . . . . . . . . . . . . . . . . . . . .  23
+     2.5.  The MTD YANG Model  . . . . . . . . . . . . . . . . . . .  13
+     2.6.  MTD File Example  . . . . . . . . . . . . . . . . . . . .  21
+   3.  The Intra-Network eXposure analyzer Utility . . . . . . . . .  29
+     3.1.  INXU Architecture and Components  . . . . . . . . . . . .  29
+     3.2.  Workflow  . . . . . . . . . . . . . . . . . . . . . . . .  31
 
 
 
-Morais & Farias            Expires 26 May 2022                  [Page 2]
+Morais & Farias         Expires 16 November 2022                [Page 2]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
-   3.  The Intra-Network eXposure analyzer Utility . . . . . . . . .  31
-     3.1.  INXU Architecture and Components  . . . . . . . . . . . .  31
-     3.2.  Workflow  . . . . . . . . . . . . . . . . . . . . . . . .  33
-     3.3.  Acquiring a MTD File  . . . . . . . . . . . . . . . . . .  33
-     3.4.  Processing a MTD URL  . . . . . . . . . . . . . . . . . .  34
-     3.5.  INXU Vulnerability Analysis Process . . . . . . . . . . .  34
-       3.5.1.  Exposure Identification . . . . . . . . . . . . . . .  35
-       3.5.2.  ACL Risk Assessment . . . . . . . . . . . . . . . . .  35
-       3.5.3.  Threat Analysis . . . . . . . . . . . . . . . . . . .  35
-   4.  Further Considerations and Next Steps . . . . . . . . . . . .  36
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  37
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  37
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  37
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  37
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  38
-   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .  39
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  39
+     3.3.  Acquiring a MTD File  . . . . . . . . . . . . . . . . . .  31
+     3.4.  Processing a MTD URL  . . . . . . . . . . . . . . . . . .  32
+     3.5.  INXU Vulnerability Analysis Process . . . . . . . . . . .  32
+       3.5.1.  Exposure Identification . . . . . . . . . . . . . . .  33
+       3.5.2.  ACL Risk Assessment . . . . . . . . . . . . . . . . .  33
+       3.5.3.  Threat Analysis . . . . . . . . . . . . . . . . . . .  33
+   4.  Further Considerations and Next Steps . . . . . . . . . . . .  34
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  34
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  35
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  35
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  35
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .  36
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  36
 
 1.  Introduction
 
@@ -165,9 +161,13 @@ Internet-Draft                    INXU                     November 2021
 
 
 
-Morais & Farias            Expires 26 May 2022                  [Page 3]
+
+
+
+
+Morais & Farias         Expires 16 November 2022                [Page 3]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
    Integrating this analysis in traditional IDS or IPS can improve their
@@ -179,15 +179,15 @@ Internet-Draft                    INXU                     November 2021
    the process for keeping the attack signatures updated is not that
    simple.
 
-   Therefore, envisioning to overcome this gap, this document specifies
-   INXU (Intra Network eXposure analyzer Utility) as a security
-   extension of MUD that takes advantage of the MUD-based network
-   communication graph to prevent the exploitation of well-known
-   vulnerabilities.  To do this, INXU blocks threats on the Local Area
-   Network (LAN) after identifying them by comparing the signature of
-   well-known malicious activities with the traffic flow allowed by the
-   MUD.  In short words, while MUD builds allow-lists, INXU builds a
-   blocklist on top of MUD's allow-lists.
+   Therefore, envisioning to overcome this gap, this document proposes
+   INXU (Intra Network eXposure analyzer Utility) as a security tool
+   that takes advantage of the MUD-based network communication graph to
+   prevent the exploitation of well-known vulnerabilities.  To do this,
+   INXU blocks threats on the Local Area Network (LAN) after identifying
+   them by comparing the signature of well-known malicious activities
+   with the traffic flow allowed by the MUD.  In short words, while MUD
+   builds allow-lists, INXU builds a blocklist on top of MUD's allow-
+   lists.
 
    The core component of INXU is Malicious Traffic Description (MTD), a
    document produced by a security specialist that describes ongoing
@@ -221,9 +221,9 @@ Internet-Draft                    INXU                     November 2021
 
 
 
-Morais & Farias            Expires 26 May 2022                  [Page 4]
+Morais & Farias         Expires 16 November 2022                [Page 4]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
 1.1.  Simple Example
@@ -254,13 +254,13 @@ Internet-Draft                    INXU                     November 2021
 1.2.  Key Aspects
 
    This work in progress aims to propose a tool that reinforces IoT
-   networks' security by extending the functions provided by the
-   [RFC8520].  The specific contributions of INXU are listed below:
+   networks' security by taking advantage of the functions provided by
+   the [RFC8520].  The specific contributions of INXU are listed below:
 
    *  Simplify the process of sharing attack signatures that targets or
       exploits IoT systems;
 
-   *  Allow a short team of security specialists to protect multiple
+   *  Allow a small team of security specialists to protect multiple
       distinct IoT networks without expose the networks' privacy;
 
    *  Protect the Internet's ecosystem by hindering distributed attacks
@@ -270,20 +270,29 @@ Internet-Draft                    INXU                     November 2021
 
    The intended use for INXU is in the support of the vulnerability
    management of diverse heterogeneous IoT networks in scenarios where
-   there is a short team of security specialists (e.g.  Smart Cities).
+   there is a small team of security specialists (e.g.  Smart Cities).
    It is also intended to be used in scenarios where the end networks
    need their privacy kept, as Home IoT networks.
 
 
 
 
-Morais & Farias            Expires 26 May 2022                  [Page 5]
+Morais & Farias         Expires 16 November 2022                [Page 5]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
    The deployment of INXU in networks populated by both IoT and general
-   purpose devices is NOT RECOMMENDED.
+   purpose devices is NOT RECOMMENDED.  Due to the greater computing
+   power and wider openness to other attacks, general purpose devices
+   might expose the IoT network to unnecessary risk.  Instead of having
+   both types on the same sub-network, we recomend to isolate IoT
+   devices in a separate sub-network as they announce their MUD URLs,
+   and developers should take advantage of MUD's "controller" and "my-
+   controller" hosts as application gateway between general purpose and
+   IoT devices.  In the case of needing a direct communication between
+   the two categories, this could be specified with MUD's "local-
+   networks" specification.
 
 1.4.  Terminology
 
@@ -316,6 +325,19 @@ Internet-Draft                    INXU                     November 2021
    14 [RFC2119][RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
+
+
+
+
+
+
+
+
+Morais & Farias         Expires 16 November 2022                [Page 6]
+
+Internet-Draft                    INXU                          May 2022
+
+
 2.  The MTD Data Model
 
    The main aim of this data model is to enable describing malicious
@@ -323,21 +345,13 @@ Internet-Draft                    INXU                     November 2021
    security measures, no matter the connected IoT devices or network
    topology.  Another feature addressed by this data model is allowing
    the association between the detected exposure and the malicious
-   activity that exploits it and the grouping of vulnerabilities related
-   to the same malicious activity.
+   activity that exploits it, as well as the grouping of vulnerabilities
+   related to the same malicious activity.
 
    The MTD data model makes use of Access Control Lists (ACLs) [RFC8519]
    under YANG language [RFC7950] to describe the malicious traffic,
    addressing the classification feature.  Furthermore, such as in MUD,
    there are available two network address abstractions to describe the
-
-
-
-Morais & Farias            Expires 26 May 2022                  [Page 6]
-
-Internet-Draft                    INXU                     November 2021
-
-
    traffic so that different networks can adapt the description to its
    context: one abstraction for addresses in the local networks, and the
    other for using domain names to hosts on the Internet.  The data
@@ -345,27 +359,18 @@ Internet-Draft                    INXU                     November 2021
    the MTD File, so the contained data can be categorized in control
    data and description data.
 
-   The description of malicious traffic can be divided into two
-   categories:
-
-   *  Attack descriptions: the traffic associated with isolated attacks,
-      commonly associated with traffic that comes from outside the
-      internal network.  This category can be used, for example, to
-      describe the process of scanning and exploitation of an zero-day
-      attack;
-
-   *  Malware descriptions: the traffic associated with a malware, which
-      may include the multiple attacks that it is capable to carry and
-      the traffic associated with its operations.
-
-   Moreover, to prevent false-positive threat detections, the MTD data
-   model allows inserting context information into the descriptions.
-   The context information in the MTD data model plays the role of
-   specifying the correlation between the described malicious traffic,
-   determining the combinations of exposures that become a risk, and
-   suggesting the action to be taken with each detected threat.  This
-   feature supports reducing false-positive detection, as a single
-   traffic exposure may not represent a threat itself.
+   This data model covers the complete description of malicious
+   activities from simple attacks with just a few ACE inputs to complex
+   malware that exploits many different vulnerabilities and network
+   resources.  Furthermore, to prevent false-positive threat detections,
+   the MTD data model allows inserting context information into the
+   descriptions.  The context information in the MTD data model plays
+   the role of specifying the correlation between the described
+   malicious traffic, determining the combinations of exposures that
+   become a risk, and suggesting the action to be taken with each
+   detected threat.  This feature supports reducing false-positive
+   detection, as a single traffic exposure may not represent a threat
+   itself.
 
    Basically the context information supports the categorization of a
    set of vulnerabilities as an effective threat or not.  To incorporate
@@ -380,19 +385,19 @@ Internet-Draft                    INXU                     November 2021
       hidden behind security mechanisms, such as blocking its exposure
       for potential attackers.
 
+
+
+
+
+Morais & Farias         Expires 16 November 2022                [Page 7]
+
+Internet-Draft                    INXU                          May 2022
+
+
    So, in short words, an asset is under threat only when an attacker
    can exploit one or more vulnerabilities to take advantage of it.
    Thus, merging the concepts from the ontology and the aims on MTD data
    model, this document considers the following statements:
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                  [Page 7]
-
-Internet-Draft                    INXU                     November 2021
-
 
    *  Each Access Control Entry (ACE) has an associated severity defined
       by the unsigned integer field named risk.  When the exposure to
@@ -404,28 +409,26 @@ Internet-Draft                    INXU                     November 2021
       exposed ACEs risks reaches the risk threshold, the exposure to the
       ACL is considered as a vulnerability;
 
-   *  Under the attack category, ACLs that expose vulnerabilities are
-      considered as threats and should be blocked;
-
-   *  In the malware category, each described malware contains a list of
-      critical ACL sets.  A malware is classified as a threat when at
-      least one set of critical ACLs contains all its ACLs classified as
-      a vulnerability exposure.  When one set's condition is satisfied,
+   *  Each malicious activity described contains a list of critical ACL
+      sets.  A malware or attack is classified as a threat when at least
+      one set of critical ACLs contains all its ACLs classified as a
+      vulnerability exposure.  When one set's condition is satisfied,
       its associated action-to-take has to be triggered.
 
    The three possible actions to be taken are listed below:
 
    *  block-all: blocks all ACLs that expose vulnerabilities related to
-      the malware.  Expected to be used when any traffic associated with
-      the malware threatens the IoT device;
+      the description.  Expected to be used when any traffic associated
+      with the malware or attack threatens the IoT device;
 
    *  block-attack: blocks all ACLs that expose vulnerabilities under
-      the malware's attack-traffic group.  Expected to be used when only
-      risky ACLs associated with attacks threatens the IoT device;
+      the attack-traffic group.  Expected to be used when only risky
+      ACLs associated with attacks (isolated or in the context of a
+      malware) threatens the IoT device;
 
    *  block-not-attack: blocks all ACLs that expose vulnerabilities
       under the malware's not-attack-traffic group.  Expected to be used
-      when just blocking the operation traffic of the malware prevents
+      when just blocking the operation traffic of a malware prevents
       exploitation.
 
 2.1.  The draft-inxu-mtd YANG Module
@@ -434,82 +437,78 @@ Internet-Draft                    INXU                     November 2021
    this document.  The meaning of the symbols in these diagrams is
    explained in [RFC8340].
 
-   module: draft-inxu-mtd
-     +--rw mtd!
-        +--rw mtd-url                 inet:uri
-        +--rw last-update             yang:date-and-time
-        +--rw mtd-signature?          inet:uri
-        +--rw cache-validity?         uint8
-        +--rw attack-descriptions
-        |  +--rw to-device-attacks
 
 
 
-Morais & Farias            Expires 26 May 2022                  [Page 8]
+
+
+
+
+
+Morais & Farias         Expires 16 November 2022                [Page 8]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
-        |  |  +--rw attack-lists
-        |  |     +--rw attack-list* [name]
-        |  |        +--rw name                -> /acl:acls/acl/name
-        |  |        +--rw specific-devices*   inet:uri
-        |  +--rw from-device-attacks
-        |     +--rw attack-lists
-        |        +--rw attack-list* [name]
-        |           +--rw name                -> /acl:acls/acl/name
-        |           +--rw specific-devices*   inet:uri
-        +--rw malware-descriptions
-           +--rw malwares-list* [name]
-              +--rw name                   string
-              +--rw specific-devices*      inet:uri
-              +--rw critical-acl-sets* [name]
-              |  +--rw name                string
-              |  +--rw critical-acl-set*   -> /acl:acls/acl/name
-              |  +--rw action-to-take      draft-inxu-mtd:action-to-take
-              +--rw to-device-attacks
-              |  +--rw attack-lists
-              |     +--rw attack-list* [name]
-              |        +--rw name                -> /acl:acls/acl/name
-              |        +--rw specific-devices*   inet:uri
-              +--rw from-device-attacks
-              |  +--rw attack-lists
-              |     +--rw attack-list* [name]
-              |        +--rw name                -> /acl:acls/acl/name
-              |        +--rw specific-devices*   inet:uri
-              +--rw not-attack-traffic
-                 +--rw to-device-not-attack-traffic* [name]
-                 |  +--rw name    -> /acl:acls/acl/name
-                 +--rw from-device-not-attack-traffic* [name]
-                    +--rw name    -> /acl:acls/acl/name
+module: draft-inxu-mtd
+  +--rw mtd!
+     +--rw mtd-url                   inet:uri
+     +--rw last-update               yang:date-and-time
+     +--rw mtd-signature?            inet:uri
+     +--rw cache-validity?           uint8
+     +--rw malicious-descriptions
+        +--rw malicious-list* [name]
+           +--rw name                       string
+           +--rw specific-devices*          inet:uri
+           +--rw critical-acl-sets* [name]
+           |  +--rw name                string
+           |  +--rw critical-acl-set*   -> /acl:acls/acl/name
+           |  +--rw action-to-take      draft-inxu-mtd:action-to-take
+           +--rw to-device-attacks
+           |  +--rw traffic-lists
+           |     +--rw traffic-list* [name]
+           |        +--rw name                -> /acl:acls/acl/name
+           |        +--rw specific-devices*   inet:uri
+           +--rw from-device-attacks
+           |  +--rw traffic-lists
+           |     +--rw traffic-list* [name]
+           |        +--rw name                -> /acl:acls/acl/name
+           |        +--rw specific-devices*   inet:uri
+           +--rw to-device-not-attacks
+           |  +--rw traffic-lists
+           |     +--rw traffic-list* [name]
+           |        +--rw name                -> /acl:acls/acl/name
+           |        +--rw specific-devices*   inet:uri
+           +--rw from-device-not-attacks
+              +--rw traffic-lists
+                 +--rw traffic-list* [name]
+                    +--rw name                -> /acl:acls/acl/name
+                    +--rw specific-devices*   inet:uri
 
-     augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
-       +--rw mtd
-          +--rw local-networks?   empty
-     augment /acl:acls/acl:acl/acl:aces/acl:ace:
-       +--rw risk?   uint8
-     augment /acl:acls/acl:acl:
-       +--rw risk-threshold?    uint8
-       +--rw alert-threshold?   uint8
-     augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches
-       /acl:l4/acl:tcp/acl:tcp:
-       +--rw direction-initiated?   mud:direction
-     augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches
-       /acl:l3/acl:ipv4/acl:ipv4:
-       +--rw src-dnsname?   inet:host
-       +--rw dst-dnsname?   inet:host
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+    +--rw mtd
+       +--rw local-networks?   empty
+  augment /acl:acls/acl:acl/acl:aces/acl:ace:
+    +--rw risk?   uint8
+  augment /acl:acls/acl:acl:
+    +--rw risk-threshold?    uint8
+    +--rw alert-threshold?   uint8
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4/acl:tcp/acl:tcp:
+    +--rw direction-initiated?   mud:direction
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3/acl:ipv4/acl:ipv4:
+    +--rw src-dnsname?   inet:host
+    +--rw dst-dnsname?   inet:host
 
 
 
-Morais & Farias            Expires 26 May 2022                  [Page 9]
+Morais & Farias         Expires 16 November 2022                [Page 9]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
-     augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches
-       /acl:l3/acl:ipv6/acl:ipv6:
-       +--rw src-dnsname?   inet:host
-       +--rw dst-dnsname?   inet:host
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3/acl:ipv6/acl:ipv6:
+    +--rw src-dnsname?   inet:host
+    +--rw dst-dnsname?   inet:host
 
 2.2.  MTD Data Model Definition of Control Fields in the Root "mtd"
       Container
@@ -543,141 +542,112 @@ Internet-Draft                    INXU                     November 2021
 2.3.  MTD Data Model Definition of Traffic Description Fields in the
       Root "mtd" Container
 
-   The traffic description fields are divided in "attack-descriptions"
-   and "malware-descriptions" containers.  These two categories are
-   needed because one malware can deliver multiple different attacks and
-   can also use other traffic -- here called not attack traffic --
-   related to the malware operation.
-
-
-
-
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 10]
-
-Internet-Draft                    INXU                     November 2021
-
-
-   The description of malware traffic allows the aggregation of
-   different attacks, and also other not attack traffic that only turn
-   into malicious when related to the malware operation.  This
-   aggregation is important for the security measures decision-making
-   process, as sometimes only a traffic combination makes the malware
-   effective or blocking just one type of traffic can almost disable a
-   malware, such as the Mirai's Command and Control traffic.
+   The traffic description fields are organized under the "malicious-
+   descriptions" container.  The description of a malicious activity
+   allows the aggregation of different attacks, and also other not
+   attack traffic that only turn into malicious when related to the
+   malware operation.  This aggregation is important for the security
+   measures decision-making process, as sometimes only a traffic
+   combination makes the threat effective or blocking just one type of
+   traffic can almost disable it, such as the Mirai's Command and
+   Control traffic.
 
    The description of each leaf is detailed in the Sub-Sections below.
 
-2.3.1.  attack-descriptions
 
-   Container that holds the description of all attack traffic incoming
-   to or outgoing from an IoT device.
 
-2.3.1.1.  to-device-attacks
 
-   Container that describes all the attack traffic targeting an IoT
-   device on the LAN.
+Morais & Farias         Expires 16 November 2022               [Page 10]
+
+Internet-Draft                    INXU                          May 2022
 
-2.3.1.2.  from-device-attacks
 
-   Container that describes all the attack traffic outgoing from an IoT
-   device on the LAN.
-
-2.3.2.  attacks-list
+2.3.1.  traffic-list
 
    List type field to specify all the traffic in the same direction
-   (incoming/outgoing) that is associated with one attack.
+   (incoming/outgoing) that is associated with one attack-traffic or
+   not-attack-traffic.
+
+2.3.1.1.  name
+
+   Required string field with the name of the ACL that describes one
+   attack-traffic or not-attack-traffic;
+
+2.3.1.2.  specific-devices
+
+   Optional list to specify the MUD URLs of the IoT devices affected by
+   the described traffic.  When this field is filled, INXU only
+   considers the devices here listed as targets of these ACLs.
+
+2.3.2.  malicious-descriptions
+
+   List that holds the traffic description of all the malicious
+   activities covered by the MTD File.
 
 2.3.2.1.  name
 
-   Required string field with the name of the ACL that describes one
-   attack;
+   Required string field to uniquely name the described malicious
+   activity.
 
 2.3.2.2.  specific-devices
 
-   Optional list to specify the MUD URLs of the IoT devices affected by
-   the described attack.  When this field is filled, INXU only considers
-   the devices here listed as targets of these ACLs.
-
-2.3.3.  malware-descriptions
-
-   List that holds the traffic description of all malware covered by the
-   MTD File
-
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 11]
-
-Internet-Draft                    INXU                     November 2021
-
-
-2.3.3.1.  name
-
-   Required string field to uniquely name the described malware.
-
-2.3.3.2.  specific-devices
-
    Optional list to specify the MUD URLs of the IoT devices that can be
-   affected by the malware.  When this field is filled, INXU only
-   considers the devices here listed as affected by this malware.
+   affected by the malicious activity.  When this field is filled, INXU
+   only considers the devices here listed as affected by this malicious
+   activity.
 
-2.3.3.3.  critical-acl-sets
+2.3.2.3.  critical-acl-sets
 
    List to specify all the sets of critical ACL and their respective
    actions to take when all listed ACLs get classified as risky.
 
-2.3.3.3.1.  critical-acl-set
+2.3.2.3.1.  critical-acl-set
 
    List to specify a set of ACLs that, when all listed ACLs get
-   classified as risky, represents a threat caused by the malware.
+   classified as risky, represents a threat caused by the malicious
+   activity.
 
-2.3.3.3.2.  action-to-take
+
+
+
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 11]
+
+Internet-Draft                    INXU                          May 2022
+
+
+2.3.2.3.2.  action-to-take
 
    Mandatory leaf to specify the action to be taken when the respective
    set of critical ACLs turns into a threat.  The action can be "block-
    all", "block-attack", or "block-not-attack".
 
-2.3.3.4.  to-device-attacks
+2.3.2.4.  to-device-attacks
 
-   Container that holds all the malware's attack traffic targeting an
-   IoT device on the LAN.
+   Container that holds all the malicious activity's attack traffic
+   targeting an IoT device on the LAN.
 
-2.3.3.5.  from-device-attacks
+2.3.2.5.  from-device-attacks
 
-   Container that holds all the malware's attack traffic outgoing from
-   an IoT device on the LAN.
+   Container that holds all the malicious activity's attack traffic
+   outgoing from an IoT device on the LAN.
 
-2.3.3.6.  not-attack-traffic
+2.3.2.6.  not-attack-traffic
 
    Container that holds the traffic not related to attacks, but that
-   turns into malicious when in a malware context.
+   turns into malicious when in this context.
 
-2.3.3.6.1.  to-device-not-attack-traffic
+2.3.2.6.1.  to-device-not-attack-traffic
 
-   List with all the ACLs that describe malware associate not attack
-   traffic targeting an IoT device on the LAN.
+   List with all the ACLs that describe malicious not attack traffic
+   targeting an IoT device on the LAN.
 
+2.3.2.6.2.  from-device-not-attack-traffic
 
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 12]
-
-Internet-Draft                    INXU                     November 2021
-
-
-2.3.3.6.2.  from-device-not-attack-traffic
-
-   List with all the ACLs that describe malware associate not attack
-   traffic outgoing from an IoT device on the LAN.
+   List with all the ACLs that describe malicious not attack traffic
+   outgoing from an IoT device on the LAN.
 
 2.4.  Augmentation to the ACL Model
 
@@ -694,8 +664,15 @@ Internet-Draft                    INXU                     November 2021
 
 2.4.2.  direction-initiated
 
-   Optional field incorporated from MUD to specify the TCP connection
-   starter.
+   Optional field incorporated from MUD to specify the TCP initiator.
+
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 12]
+
+Internet-Draft                    INXU                          May 2022
+
 
 2.4.3.  src-dnsname and dst-dnsname
 
@@ -721,522 +698,451 @@ Internet-Draft                    INXU                     November 2021
    calculated by the sum of all its child ACE exposures' risks.  Its
    default value is 1.
 
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 13]
-
-Internet-Draft                    INXU                     November 2021
-
-
 2.5.  The MTD YANG Model
 
-   <CODE BEGINS>file "draft-inxu-mtd@2021-11-22.yang"
-   module draft-inxu-mtd{
-     yang-version 1.1;
-     namespace "urn:ietf:params:xml:ns:yang:draft-inxu-mtd";
-     prefix draft-inxu-mtd;
+  <CODE BEGINS>file "draft-inxu-mtd@2021-11-22.yang"
+  module draft-inxu-mtd{
+    yang-version 1.1;
+    namespace "urn:ietf:params:xml:ns:yang:draft-inxu-mtd";
+    prefix draft-inxu-mtd;
 
-     import ietf-yang-types {
-       prefix yang;
-     }
+    import ietf-yang-types {
+      prefix yang;
+    }
 
-     import ietf-access-control-list {
-       prefix acl;
-     }
+    import ietf-access-control-list {
+      prefix acl;
+    }
 
-     import ietf-inet-types {
-       prefix inet;
-     }
+    import ietf-inet-types {
+      prefix inet;
+    }
 
-     import ietf-mud {
-       prefix mud;
-     }
-
-     import ietf-acldns {
-       prefix acldns;
-     }
-
-     organization "IETF IOTOPS (IOT Operations) Working Group";
-     contact
-       "WG Web: http://tools.ietf.org/wg/iotops/
-        WG List: iotops@ietf.org
-        Author: Sávyo Morais
-        savyovm@gmail.com
-        Author: Claudio Farias
-        cmicelifarias@gmail.com";
-
-     description
-       "This module is a data-model to describe malicious network
-       traffic.
-
-       This module is intended to be serialized via JSON and stored
-       as a file, as described in I-D draft-morais-iotops-inxu-00.
-
-       The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
-       NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
-       'MAY', and 'OPTIONAL' in this document are to be interpreted as
-       described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+    import ietf-mud {
+      prefix mud;
+    }
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 14]
+
+Morais & Farias         Expires 16 November 2022               [Page 13]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
-       they appear in all capitals, as shown here.
+    import ietf-acldns {
+      prefix acldns;
+    }
 
-       Copyright (c) 2021 IETF Trust and the persons identified as
-       authors of the code.  All rights reserved.
+    organization "IETF IOTOPS (IOT Operations) Working Group";
+    contact
+      "WG Web: http://tools.ietf.org/wg/iotops/
+       WG List: iotops@ietf.org
+       Author: Sávyo Morais
+       savyovm@gmail.com
+       Author: Claudio Farias
+       cmicelifarias@gmail.com";
 
-       Redistribution and use in source and binary forms, with or
-       without modification, is permitted pursuant to, and subject
-       to the license terms contained in, the Simplified BSD License
-       set forth in Section 4.c of the IETF Trust's Legal Provisions
-       Relating to IETF Documents
-       (http://trustee.ietf.org/license-info).
+    description
+      "This module is a data-model to describe malicious network
+      traffic.
 
-       This version of this YANG module is part of
-       I-D draft-morais-iotops-inxu-00; see the I-D itself for
-       full legal notices.";
+      This module is intended to be serialized via JSON and stored
+      as a file, as described in I-D draft-morais-iotops-inxu-01.
 
-     revision 2021-11-22{
-       description "Initial revision.";
-       reference
-         "draft-morais-iotops-inxu-00: Intra-Network eXposure analyzer
-                                       Utility Specification";
-     }
+      The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+      NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+      'MAY', and 'OPTIONAL' in this document are to be interpreted as
+      described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+      they appear in all capitals, as shown here.
 
-     typedef action-to-take {
-       description
-         "Type to specify the action to take when a malware threat
-         is detected";
+      Copyright (c) 2022 IETF Trust and the persons identified as
+      authors of the code.  All rights reserved.
 
-       type enumeration {
-         enum "alert" {
-           value 0;
-           description
-             "Alert user about risky exposure to the malware";
-         }
-         enum "block-not-attack" {
-           value 1;
-           description
-             "Block malware related not-attack-traffic risky
-             exposures and attack-traffic alert exposures";
-         }
-         enum "block-attack" {
-           value 2;
-           description
-             "Block malware related attack-traffic exposures
-             and alert users about the block";
-         }
-         enum "block-all" {
-           value 3;
+      Redistribution and use in source and binary forms, with or
+      without modification, is permitted pursuant to, and subject
+      to the license terms contained in, the Simplified BSD License
+      set forth in Section 4.c of the IETF Trust's Legal Provisions
+      Relating to IETF Documents
+      (http://trustee.ietf.org/license-info).
+
+      This version of this YANG module is part of
+      I-D draft-morais-iotops-inxu-01; see the I-D itself for
+      full legal notices.";
+
+    revision 2022-05-15{
+      description
+        "Simplifying the data model to one single description of
+        malicious traffic.";
+      reference
+        "draft-morais-iotops-inxu-01: Intra-Network eXposure analyzer
+                                      Utility Specification";
+    }
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 15]
+Morais & Farias         Expires 16 November 2022               [Page 14]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
-           description
-             "Block all malware related exposures and alert
-             users about the block";
-         }
+    typedef action-to-take {
+      description
+        "Type to specify the action to take when a threat is detected";
+
+      type enumeration {
+        enum "alert" {
+          value 0;
+          description
+            "Alert user about a risky exposure";
+        }
+        enum "block-not-attack" {
+          value 1;
+          description
+            "Block risky exposures of not-attack-traffic and warns uses
+            about attack-traffic alert exposures";
+        }
+        enum "block-attack" {
+          value 2;
+          description
+            "Block attack-traffic risky exposures and alert users about
+            the block";
+        }
+        enum "block-all" {
+          value 3;
+          description
+            "Block all risky exposures and alert users about the block";
+        }
+      }
+    }
+
+    container mtd {
+      presence "Enabled for this particular MTD URL";
+      description "MTD-related information";
+      uses mtd-groupig;
+    }
+
+    grouping mtd-groupig {
+      description
+        "This grouping is to create a set of definitions of
+        malicious traffic of malware and attacks.";
+
+      leaf mtd-url{
+        type inet:uri;
+        mandatory true;
+        description
+          "This is the MTD URL associated with the entry found
+          in a MTD File";
+      }
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 15]
+
+Internet-Draft                    INXU                          May 2022
+
+
+      leaf last-update {
+        type yang:date-and-time;
+        mandatory true;
+        description
+          "This is intended to be set when the current MTD File is
+          generated. MTD Managers SHOULD NOT check for updates
+          between this time plus cache validity.";
+      }
+
+      leaf mtd-signature {
+        type inet:uri;
+        description
+          "A URI that resolves to a signature file to verify the
+          autenticity of the MTD File.";
        }
-     }
 
-     container mtd {
-       presence "Enabled for this particular MTD URL";
-       description "MTD-related information";
-       uses mtd-groupig;
-     }
-
-     grouping mtd-groupig {
-       description
-         "This grouping is to create a set of definitions of
-         malicious traffic of attacks and malwares";
-
-       leaf mtd-url{
-         type inet:uri;
-         mandatory true;
-         description
-           "This is the MTD URL associated with the entry found
-           in a MTD File";
-       }
-
-       leaf last-update {
-         type yang:date-and-time;
-         mandatory true;
-         description
-           "This is intended to be set when the current MTD File is
-           generated. MTD Managers SHOULD NOT check for updates
-           between this time plus cache validity.";
-       }
-
-       leaf mtd-signature {
-         type inet:uri;
-         description
-           "A URI that resolves to a signature file to verify the
-           autenticity of the MTD File.";
+      leaf cache-validity {
+        type uint8 {
+          range "1..168";
         }
 
-       leaf cache-validity {
-         type uint8 {
-           range "1..168";
-         }
+        units "hours";
+        default "48";
+        description
+          "The information retrieved from the MTD Server is
+          valid for these many hours, after which it should be
+          refreshed. MTD Manager implementations do not need to
+           discard MTD Files beyond this period.";
+      }
 
-         units "hours";
+      container malicious-descriptions {
+        description
+          "This container has the descriptions of the malware and
+          attacks that can exploit or target the devices";
+
+        uses malicious-list;
+      }
+    }
+
+    grouping traffic-lists {
+      description
+        "A grouping for acess lists of malicious traffic in the context
+        of malware or attacks.";
+
+      container traffic-lists {
+        description
+          "The access lists of the attack's malicious traffic
+          targeting or departing from the local IoT devices.";
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 16]
+Morais & Farias         Expires 16 November 2022               [Page 16]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
-         default "48";
-         description
-           "The information retrieved from the MTD Server is
-           valid for these many hours, after which it should be
-           refreshed. MTD Manager implementations do not need to
-            discard MTD Files beyond this period.";
-       }
+        list traffic-list {
+          key "name";
 
-       container attack-descriptions {
-         description
-           "This container has the descriptions of the attacks that
-           can be performed against or from the IoT devices";
+          description
+            "Each entry on this list refers to an malicious
+            traffic defined by an ACL that should present the
+             overall network communication of the attack.";
 
-         container to-device-attacks {
-           description
-             "The set of malicious traffic performed by the
-             infected device";
+          leaf name {
+            type leafref{
+              path "/acl:acls/acl:acl/acl:name";
+            }
 
-           uses attack-lists;
-         }
-
-         container from-device-attacks {
-           description
-             "The set of malicious traffic performed
-             addressing the target device";
-
-           uses attack-lists;
-         }
-       }
-
-       container malware-descriptions {
-         description
-           "This container has the descriptions of the
-           malwares that can infect the devices";
-
-         uses malwares-list;
-       }
-     }
-
-     grouping attack-lists {
-       description
-         "A grouping for acess lists of malicious traffic related
-         in a context of attacks.";
-
-       container attack-lists {
-         description
-           "The access lists of the attack's malicious traffic
-           targeting or departing from the local IoT devices.";
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 17]
-
-Internet-Draft                    INXU                     November 2021
-
-
-         list attack-list {
-           key "name";
-
-           description
-             "Each entry on this list refers to an malicious
-             traffic defined by an ACL that should present the
-              overall network communication of the attack.";
-
-           leaf name {
-             type leafref{
-               path "/acl:acls/acl:acl/acl:name";
-             }
-
-             description
-               "The name of the ACL for this entry.";
-           }
-
-           leaf-list specific-devices {
-             type inet:uri;
-
-             description
-               "List of MUD URLs of specific devices
-               related with the vulnerability";
-           }
-         }
-       }
-     }
-
-     grouping malwares-list {
-       description
-         "A grouping for acess lists of malicious traffic related
-         in a context of malwares.";
-
-       list malwares-list {
-         key "name";
-
-         description
-           "The access lists of the malware's malicious traffic
-           targeting or departing from the local IoT devices,";
-
-         leaf name {
-           type string;
-
-           description
-             "The name of the Malware for each entry.";
-         }
-
-         leaf-list specific-devices {
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 18]
-
-Internet-Draft                    INXU                     November 2021
-
-
-           type inet:uri;
-
-           description
-             "List of MUD URLs of specific devices
-             related with the vulnerability";
-         }
-
-         list critical-acl-sets{
-           key "name";
-
-           description
-             "Each list entry represents a malware's critical set of
-             risky ACL exposures, followed by the action to take
-             when a critical set be detected.";
-
-           leaf name {
-             type string;
-
-             description
-               "The critical ACL set name";
-           }
-
-           leaf-list critical-acl-set {
-             type leafref{
-               path "/acl:acls/acl:acl/acl:name";
-             }
-
-             description
-               "A list to specify a set of ACLs that, when
-               all listed ACLs get classified as risky,
-               represents a threat caused by the malware";
-           }
-
-           leaf action-to-take {
-             type draft-inxu-mtd:action-to-take;
-             mandatory true;
-             description
-               "A leaf to specify the action to be taken when
-               the respective set of critical ACLs turns into
-               a threat.";
-           }
-         }
-
-         container to-device-attacks {
-           description
-             "The set of attack traffic performed by the
-             infected IoT device";
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 19]
-
-Internet-Draft                    INXU                     November 2021
-
-
-           uses attack-lists;
-         }
-
-         container from-device-attacks {
-           description
-             "The set of attack traffic performed targeting
-             the infected IoT device";
-
-           uses attack-lists;
-         }
-
-         container not-attack-traffic {
-           description
-             "Container to group all not attack traffic
-             related to the malware";
-
-           list to-device-not-attack-traffic {
-             key "name";
-
-             description
-               "The list of malicious incoming traffic
-               related to malware's operation that is
-               not categorized as attack";
-
-             leaf name {
-               type leafref {
-                 path "/acl:acls/acl:acl/acl:name";
-               }
-
-               description
-                 "The set of not attack traffic
-                 related to the malware performed by the
-                 infected IoT device";
-             }
-           }
-
-           list from-device-not-attack-traffic {
-             key "name";
-
-             description
-               "The list of malicious outgoing traffic
-               related to malware's operation that is
-               not categorized as attack";
-
-             leaf name {
-               type leafref {
-                 path "/acl:acls/acl:acl/acl:name";
-               }
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 20]
-
-Internet-Draft                    INXU                     November 2021
-
-
-               description
-                 "The set of not attack traffic
-                 related to the malware trageting the
-                 infected IoT device";
-             }
-           }
-         }
-       }
-     }
-
-     augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
-       description
-         "adding abstraction to avoid the need of IP addresses.";
-       container mtd {
-         description
-           "MTD-specific match.";
-         leaf local-networks {
-           type empty;
-           description
-             "IP addresses will match this node if they are
-             considered local addresses. A local address may be
-             a list of locally defined prefixes and masks
-             that indicate a particular administrative scope.";
-         }
-       }
-     }
-
-     augment "/acl:acls/acl:acl/acl:aces/acl:ace" {
-       description
-         "Add the risk level information associated to the ACE";
-       leaf risk {
-         type uint8;
-         default "1";
-         description
-           "Represents risk level of a device being exploited
-           when exposes the device through traffic matching the
-           described ACE.";
-       }
-
-     }
-
-     augment "/acl:acls/acl:acl" {
-       description
-         "Add an acceptable risk threshold and an alert risk threshold
-         to the ACL";
-       leaf risk-threshold {
-         type uint8;
-         default "1";
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 21]
-
-Internet-Draft                    INXU                     November 2021
-
-
-         description
-           "The acceptable risk threshold represents the minimum
-           risk value for the exposure be considered a risk.
-           The actual risk of an ACL is calculated by the sum of
-           all the ACEs that matched on the INXU Module analysis";
-       }
-
-       leaf alert-threshold {
-         type uint8;
-         default "1";
-         description
-           "The acceptable alert threshold represents the minimum
-           risk value for the exposure trigger an alert.
-           The actual risk of an ACL is calculated by the sum of
-           all the ACEs that matched on the INXU Module analysis";
-       }
-     }
-
-     augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches"
-       + "/acl:l4/acl:tcp/acl:tcp" {
-       description
-         "Add direction-initiated";
-       leaf direction-initiated {
-         type mud:direction;
-         description
-           "This node matches based on which direction a
-           connection was initiated.";
+            description
+              "The name of the ACL for this entry.";
           }
-     }
 
-     augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches"
-       + "/acl:l3/acl:ipv4/acl:ipv4" {
-       description
-         "Adding domain names to matching.";
-       uses acldns:dns-matches;
-     }
+          leaf-list specific-devices {
+            type inet:uri;
 
-     augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches"
-       + "/acl:l3/acl:ipv6/acl:ipv6" {
-       description
-         "Adding domain names to matching.";
-       uses acldns:dns-matches;
-     }
+            description
+              "List of MUD URLs of specific devices
+              related with the vulnerability";
+          }
+        }
+      }
+    }
 
-     deviation "/acl:acls/acl:acl/acl:aces/acl:ace/acl:actions" {
-       deviate not-supported;
-       description
-         "Field not used in this specification";
+    grouping malicious-list {
+      description
+        "A grouping for acess control lists of malicious traffic in the
+        context of malware or attacks.";
+
+      list malicious-list {
+        key "name";
+
+        description
+          "The access lists of the malware's or attack's malicious
+          traffic targeting or departing from the local IoT devices,";
+
+        leaf name {
+          type string;
+
+          description
+            "The unique name of the described malicious activity for
+            each entry.";
+        }
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 22]
+
+Morais & Farias         Expires 16 November 2022               [Page 17]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
-     }
-   }
-   <CODE ENDS>
+        leaf-list specific-devices {
+          type inet:uri;
+
+          description
+            "List of MUD URLs of specific devices
+            related with the vulnerability";
+        }
+
+        list critical-acl-sets{
+          key "name";
+
+          description
+            "Each list entry represents a malicious activity's critical
+            set of risky ACL exposures, followed by the action to take
+            when a critical set be detected.";
+
+          leaf name {
+            type string;
+
+            description
+              "The critical ACL set name";
+          }
+
+          leaf-list critical-acl-set {
+            type leafref{
+              path "/acl:acls/acl:acl/acl:name";
+            }
+
+            description
+              "A list to specify a set of ACLs that, when all listed
+              ACLs get classified as risky, represents a threat caused
+              by the malicious activity";
+          }
+
+          leaf action-to-take {
+            type draft-inxu-mtd:action-to-take;
+            mandatory true;
+            description
+              "A leaf to specify the action to be taken when
+              the respective set of critical ACLs turns into
+              a threat.";
+          }
+        }
+
+        container to-device-attacks {
+          description
+            "The set of attack traffic performed by the
+            infected IoT device";
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 18]
+
+Internet-Draft                    INXU                          May 2022
+
+
+          uses traffic-lists;
+        }
+
+        container from-device-attacks {
+          description
+            "The set of attack traffic performed targeting
+            the infected IoT device";
+
+          uses traffic-lists;
+        }
+
+        container to-device-not-attacks {
+          description
+            "The set of attack traffic performed by the
+            infected IoT device";
+
+          uses traffic-lists;
+        }
+
+        container from-device-not-attacks {
+          description
+            "The set of attack traffic performed targeting
+            the infected IoT device";
+
+          uses traffic-lists;
+        }
+      }
+    }
+
+    augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
+      description
+        "adding abstraction to avoid the need of IP addresses.";
+      container mtd {
+        description
+          "MTD-specific match.";
+        leaf local-networks {
+          type empty;
+          description
+            "IP addresses will match this node if they are
+            considered local addresses. A local address may be
+            a list of locally defined prefixes and masks
+            that indicate a particular administrative scope.";
+        }
+      }
+    }
+
+    augment "/acl:acls/acl:acl/acl:aces/acl:ace" {
+      description
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 19]
+
+Internet-Draft                    INXU                          May 2022
+
+
+        "Add the risk level information associated to the ACE";
+      leaf risk {
+        type uint8;
+        default "1";
+        description
+          "Represents risk level of a device being exploited
+          when exposes the device through traffic matching the
+          described ACE.";
+      }
+
+    }
+
+    augment "/acl:acls/acl:acl" {
+      description
+        "Add an acceptable risk threshold and an alert risk threshold
+        to the ACL";
+      leaf risk-threshold {
+        type uint8;
+        default "1";
+        description
+          "The acceptable risk threshold represents the minimum
+          risk value for the exposure be considered a risk.
+          The actual risk of an ACL is calculated by the sum of
+          all the ACEs that matched on the INXU Module analysis";
+      }
+
+      leaf alert-threshold {
+        type uint8;
+        default "1";
+        description
+          "The acceptable alert threshold represents the minimum
+          risk value for the exposure trigger an alert.
+          The actual risk of an ACL is calculated by the sum of
+          all the ACEs that matched on the INXU Module analysis";
+      }
+    }
+
+    augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches"
+      + "/acl:l4/acl:tcp/acl:tcp" {
+      description
+        "Add direction-initiated";
+      leaf direction-initiated {
+        type mud:direction;
+        description
+          "This node matches based on which direction a
+          connection was initiated.";
+         }
+    }
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 20]
+
+Internet-Draft                    INXU                          May 2022
+
+
+    augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches"
+      + "/acl:l3/acl:ipv4/acl:ipv4" {
+      description
+        "Adding domain names to matching.";
+      uses acldns:dns-matches;
+    }
+
+    augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches"
+      + "/acl:l3/acl:ipv6/acl:ipv6" {
+      description
+        "Adding domain names to matching.";
+      uses acldns:dns-matches;
+    }
+
+    deviation "/acl:acls/acl:acl/acl:aces/acl:ace/acl:actions" {
+      deviate not-supported;
+      description
+        "Field not used in this specification";
+    }
+  }
+  <CODE ENDS>
 
 2.6.  MTD File Example
 
@@ -1250,21 +1156,9 @@ Internet-Draft                    INXU                     November 2021
      {
        "draft-inxu-mtd":"mtd",
        "mtd-url":"https://example.com/mirai-lan-variant.json",
-       "last-update":"2021-02-10T19:30:30-03:00",
-       "attack-descriptions":{
-         "to-device-attacks": {
-           "attack-lists": {
-             "attack-list": [{}]
-           }
-         },
-         "from-device-attacks": {
-           "attack-lists": {
-             "attack-list": [{}]
-           }
-         }
-       },
-       "malware-descriptions":{
-         "malwares-list":[
+       "last-update":"2022-05-15T18:17:00-03:00",
+       "malicious-descriptions":{
+         "malicious-list":[
            {
              "name":"Mirai-Example",
              "critical-acl-sets":[
@@ -1276,20 +1170,20 @@ Internet-Draft                    INXU                     November 2021
                    {"name":"mirai_infect_v4to"},
                    {"name":"mirai_scan_v4from"},
                    {"name":"mirai_scan_v4to"}
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 21]
+
+Internet-Draft                    INXU                          May 2022
+
+
                  ],
                  "action-to-take": "BLOCK_ATTACK"
                },
                {
                  "name":"mirai-prevet-cnc",
                  "critical-acl-set":
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 23]
-
-Internet-Draft                    INXU                     November 2021
-
-
                  [
                    {"name":"mirai_cnc_v4from"},
                    {"name":"mirai_cnc_v4to"}
@@ -1309,43 +1203,49 @@ Internet-Draft                    INXU                     November 2021
                },
              ],
              "to-device-attacks": {
-               "attack-lists": {
-                 "attack-list": [
+               "traffic-lists": {
+                 "traffic-list": [
                    {"name":"mirai_infect_v4to"},
                    {"name":"mirai_scan_v4to"}
                  ]
                }
              },
              "from-device-attacks": {
-               "attack-lists": {
-                 "attack-list": [
+               "traffic-lists": {
+                 "traffic-list": [
                    {"name":"mirai_infect_v4from"},
                    {"name":"mirai_scan_v4from"}
                  ]
                }
              },
-             "not-attack-traffic":{
-               "to-device-not-attack-traffic":[
-                 {"name":"mirai_cnc_v4to"}
-               ],
-               "from-device-not-attack-traffic":[
-                 {"name":"mirai_cnc_v4from"}
-               ]
-             }
+             "to-device-not-attacks": {
+               "traffic-lists": {
+                 "traffic-list": [
+                   {"name":"mirai_cnc_v4to"}
+                 ]
+               }
+             },
+             "from-device-not-attacks": {
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 22]
+
+Internet-Draft                    INXU                          May 2022
+
+
+               "traffic-lists": {
+                 "traffic-list": [
+                   {"name":"mirai_cnc_v4from"}
+                 ]
+               }
+             },
            }
          ]
        },
        "ietf-access-control-list:acls": {
          "acl": [
            {
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 24]
-
-Internet-Draft                    INXU                     November 2021
-
-
              "name":"mirai_infect_v4to",
              "risk-threshold":11,
              "type": "ipv4-acl-type",
@@ -1382,6 +1282,14 @@ Internet-Draft                    INXU                     November 2021
                          "operator":"eq",
                          "port":2323
                        }
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 23]
+
+Internet-Draft                    INXU                          May 2022
+
+
                      }
                    }
                  },
@@ -1394,14 +1302,6 @@ Internet-Draft                    INXU                     November 2021
                          mud:gateway",
                        "protocol":6
                      },
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 25]
-
-Internet-Draft                    INXU                     November 2021
-
-
                      "tcp":{
                        "source-port":{
                          "operator":"eq",
@@ -1438,6 +1338,14 @@ Internet-Draft                    INXU                     November 2021
                    }
                  },
                  {
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 24]
+
+Internet-Draft                    INXU                          May 2022
+
+
                    "name":"scan_2323_to",
                    "risk":10,
                    "matches":{
@@ -1450,14 +1358,6 @@ Internet-Draft                    INXU                     November 2021
                      "tcp":{
                        "source-port":{
                          "operator":"eq",
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 26]
-
-Internet-Draft                    INXU                     November 2021
-
-
                          "port":2323
                        },
                      }
@@ -1494,6 +1394,14 @@ Internet-Draft                    INXU                     November 2021
                    "risk":10,
                    "matches":{
                      "ipv4":{
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 25]
+
+Internet-Draft                    INXU                          May 2022
+
+
                        "ietf-acldns:dst-dnsname":"urn:ietf:params:\
                          mud:gateway",
                        "protocol":6
@@ -1506,14 +1414,6 @@ Internet-Draft                    INXU                     November 2021
                      }
                    }
                  },
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 27]
-
-Internet-Draft                    INXU                     November 2021
-
-
                  {
                    "name":"infect_2323_from",
                    "risk":10,
@@ -1550,6 +1450,14 @@ Internet-Draft                    INXU                     November 2021
                  }
                ]
              }
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 26]
+
+Internet-Draft                    INXU                          May 2022
+
+
            },
            {
              "name":"mirai_scan_v4from",
@@ -1562,14 +1470,6 @@ Internet-Draft                    INXU                     November 2021
                    "risk":10,
                    "matches":{
                      "ietf-mud:mud":{
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 28]
-
-Internet-Draft                    INXU                     November 2021
-
-
                        "local-networks":[ null ]
                      },
                      "ipv4":{
@@ -1606,6 +1506,14 @@ Internet-Draft                    INXU                     November 2021
                    "risk":1,
                    "matches":{
                      "ipv4":{
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 27]
+
+Internet-Draft                    INXU                          May 2022
+
+
                        "ietf-acldns:dst-dnsname":"urn:ietf:params:\
                          mud:gateway",
                        "protocol":6
@@ -1618,14 +1526,6 @@ Internet-Draft                    INXU                     November 2021
                      }
                    }
                  }
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 29]
-
-Internet-Draft                    INXU                     November 2021
-
-
                ]
              }
            },
@@ -1662,6 +1562,14 @@ Internet-Draft                    INXU                     November 2021
                  {
                    "name":"cnc_socket_from",
                    "risk":1,
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 28]
+
+Internet-Draft                    INXU                          May 2022
+
+
                    "matches":{
                      "ipv4":{
                        "ietf-acldns:dst-dnsname":"urn:ietf:params:\
@@ -1674,14 +1582,6 @@ Internet-Draft                    INXU                     November 2021
                          "port":2030
                        }
                      }
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 30]
-
-Internet-Draft                    INXU                     November 2021
-
-
                    }
                  }
                ]
@@ -1721,21 +1621,9 @@ Internet-Draft                    INXU                     November 2021
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 31]
+Morais & Farias         Expires 16 November 2022               [Page 29]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
    ...................................................
@@ -1789,9 +1677,9 @@ Internet-Draft                    INXU                     November 2021
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 32]
+Morais & Farias         Expires 16 November 2022               [Page 30]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
    malicious traffic described in a MTD File with the network graph
@@ -1845,9 +1733,9 @@ Internet-Draft                    INXU                     November 2021
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 33]
+Morais & Farias         Expires 16 November 2022               [Page 31]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
 3.4.  Processing a MTD URL
@@ -1901,9 +1789,9 @@ Internet-Draft                    INXU                     November 2021
 
 
 
-Morais & Farias            Expires 26 May 2022                 [Page 34]
+Morais & Farias         Expires 16 November 2022               [Page 32]
 
-Internet-Draft                    INXU                     November 2021
+Internet-Draft                    INXU                          May 2022
 
 
 3.5.1.  Exposure Identification
@@ -1944,36 +1832,23 @@ Internet-Draft                    INXU                     November 2021
 3.5.3.  Threat Analysis
 
    After assessing the risk of each ACL, the next step in the process is
-   the threat analysis, which is divided into two categories: isolated
-   attack threat and malware threat.
+   the threat analysis.  This analysis iterates over the list of the
+   critical ACL sets of a malicious activity.
 
-   In the attack threat analysis, any risky ACL exposure is considered
-   as a threat and SHOULD be blocked.  If the ACL is not risky but your
-   risk exceeds the alert threshold, an alert should be triggered.  This
-   category refers to the ACLs described in the attack-descriptions
-   container of the MTD File.
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 35]
-
-Internet-Draft                    INXU                     November 2021
-
-
-   The malware threat analysis goes through the ACLs associated with
-   malwares, which are described into the malware-descriptions container
-   of the MTD File.  This analysis iterates over the malware's list of
-   critical ACL sets.
-
-   In this category, the INXU Module verifies if all the ACLs contained
-   in a critical set are classified as risky for a device.  If this
-   condition becomes true, the INXU Module SHOULD take the action
-   specified in the set's action-to-take field.  If malware threatens
-   the device with more than one set of critical ACLs, the INXU Module
-   MUST take an action based into a merge of all the threatening sets'
+   In this step, the INXU Module verifies if all the ACLs contained in a
+   critical set are classified as risky for a device.  If this condition
+   becomes true, the INXU Module SHOULD take the action specified in the
+   set's action-to-take field.  If a malicious activity threatens the
+   device with more than one set of critical ACLs, the INXU Module MUST
+   take an action based into a merge of all the threatening sets'
    action-to-take.
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 33]
+
+Internet-Draft                    INXU                          May 2022
+
 
 4.  Further Considerations and Next Steps
 
@@ -2007,28 +1882,29 @@ Internet-Draft                    INXU                     November 2021
    network administrators, scientists and security analysts could have
    the same view over a given event in the network.
 
-   Finally, also coming from the previous statement, INXU could be used
-   as an input for IPS/IDS systems in order to prevent attacks and any
-   other malicious event in the network.  Since by using the MTD we
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 36]
-
-Internet-Draft                    INXU                     November 2021
-
-
-   could classify the traffic into appropriate or not.  Furthermore INXU
-   -- specially the MTD -- could be paired with an AI engine to learn
-   about new network patterns and classify them as an attack or some new
-   device in the network -- the system could write some new MTDs as it
-   learns from the network.
+   Finally, also coming from the previous statement, INXU's output could
+   be used as an input filter for IPS/IDS systems in order to prevent
+   attacks and any other malicious event in the network.  Since by using
+   the MTD we could classify the traffic into appropriate or not.
+   Furthermore INXU -- specially the MTD -- could be paired with an AI
+   engine to learn about new network patterns and classify them as an
+   attack or some new device in the network -- the system could write
+   some new MTDs as it learns from the network.
 
 5.  Security Considerations
 
    Since INXU uses MUD as a data source, the problems presented at the
    Security Considerations session of the [RFC8520] are still valid for
    this proposal, and some new ones arise.
+
+
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 34]
+
+Internet-Draft                    INXU                          May 2022
+
 
    The first new risk is the possibility of INXU causing Denial of
    Service on their protected IoT devices depending on how the malicious
@@ -2066,14 +1942,6 @@ Internet-Draft                    INXU                     November 2021
 
 7.1.  Normative References
 
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 37]
-
-Internet-Draft                    INXU                     November 2021
-
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -2085,6 +1953,14 @@ Internet-Draft                    INXU                     November 2021
    [RFC3986]  Berners-Lee, T., Fielding, R. T., and L. M. Masinter,
               "Uniform Resource Identifier (URI): Generic Syntax",
               January 2005, <https://rfc-editor.org/rfc/rfc3986.txt>.
+
+
+
+
+Morais & Farias         Expires 16 November 2022               [Page 35]
+
+Internet-Draft                    INXU                          May 2022
+
 
    [RFC7230]  Fielding, R. T. and J. Reschke, "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing", June
@@ -2120,26 +1996,12 @@ Internet-Draft                    INXU                     November 2021
               the Internet of Things", 2015,
               <https://doi.org/10.1109/IWMN.2015.7322984>.
 
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 38]
-
-Internet-Draft                    INXU                     November 2021
-
-
-Appendix A.  Additional Stuff
-
-   This becomes an Appendix.
-
 Authors' Addresses
 
    Sávyo Vinícius de Morais
+   IFRN
    Natal-
    Brazil
-
    Email: savyovm@gmail.com
 
 
@@ -2147,38 +2009,8 @@ Authors' Addresses
    UFRJ
    Rio de Janeiro-
    Brazil
-
    Email: cmicelifarias@gmail.com
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Morais & Farias            Expires 26 May 2022                 [Page 39]
+Morais & Farias         Expires 16 November 2022               [Page 36]

@@ -1,0 +1,51 @@
+module: draft-inxu-mtd
+  +--rw mtd!
+     +--rw mtd-url                   inet:uri
+     +--rw last-update               yang:date-and-time
+     +--rw mtd-signature?            inet:uri
+     +--rw cache-validity?           uint8
+     +--rw malicious-descriptions
+        +--rw malicious-list* [name]
+           +--rw name                       string
+           +--rw specific-devices*          inet:uri
+           +--rw critical-acl-sets* [name]
+           |  +--rw name                string
+           |  +--rw critical-acl-set*   -> /acl:acls/acl/name
+           |  +--rw action-to-take      draft-inxu-mtd:action-to-take
+           +--rw to-device-attacks
+           |  +--rw traffic-lists
+           |     +--rw traffic-list* [name]
+           |        +--rw name                -> /acl:acls/acl/name
+           |        +--rw specific-devices*   inet:uri
+           +--rw from-device-attacks
+           |  +--rw traffic-lists
+           |     +--rw traffic-list* [name]
+           |        +--rw name                -> /acl:acls/acl/name
+           |        +--rw specific-devices*   inet:uri
+           +--rw to-device-not-attacks
+           |  +--rw traffic-lists
+           |     +--rw traffic-list* [name]
+           |        +--rw name                -> /acl:acls/acl/name
+           |        +--rw specific-devices*   inet:uri
+           +--rw from-device-not-attacks
+              +--rw traffic-lists
+                 +--rw traffic-list* [name]
+                    +--rw name                -> /acl:acls/acl/name
+                    +--rw specific-devices*   inet:uri
+
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+    +--rw mtd
+       +--rw local-networks?   empty
+  augment /acl:acls/acl:acl/acl:aces/acl:ace:
+    +--rw risk?   uint8
+  augment /acl:acls/acl:acl:
+    +--rw risk-threshold?    uint8
+    +--rw alert-threshold?   uint8
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4/acl:tcp/acl:tcp:
+    +--rw direction-initiated?   mud:direction
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3/acl:ipv4/acl:ipv4:
+    +--rw src-dnsname?   inet:host
+    +--rw dst-dnsname?   inet:host
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3/acl:ipv6/acl:ipv6:
+    +--rw src-dnsname?   inet:host
+    +--rw dst-dnsname?   inet:host
